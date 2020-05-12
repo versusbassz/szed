@@ -18,6 +18,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/inc/debug.php';
 require_once __DIR__ . '/inc/misc.php';
 
+define('SZED_PLUGIN_URL', plugin_dir_url(__FILE__));
+
 
 add_action('admin_menu', function () {
    add_submenu_page(
@@ -46,9 +48,40 @@ function render_debug_page()
     $image__attachment_meta = get_post_meta($image_id, '_wp_attachment_metadata', true);
 
 //    dump($image__attachment_meta);
+    ?>
 
+    <div style="margin-bottom: 40px;">
+        <input type="text" id="hh-chose-img" value="">
+    </div>
 
-    return null;
+    <div style="width: 800px; border: 1px solid #ffccaa;">
+        <div>
+            <img id="hh-image" src="<?= wp_get_attachment_url($image_id); ?>">
+        </div>
+    </div>
+
+    <div>
+        <div class="hh-preview"></div>
+    </div>
+
+    <style type="text/css">
+        img {
+            display: block;
+
+            /* This rule is very important, please don't ignore this */
+            max-width: 100%;
+        }
+
+        .hh-preview {
+            width: 200px;
+        }
+
+        .hh-preview img {
+            max-width: 100%;
+        }
+    </style>
+
+    <?php
 }
 
 if (defined('WP_CLI')) {
@@ -68,3 +101,14 @@ if (defined('WP_CLI')) {
         dump($sizes);
     });
 }
+
+add_action('admin_enqueue_scripts', function () {
+    wp_enqueue_style('szed-cropper-css', SZED_PLUGIN_URL . 'assets/build/cropper.css');
+    wp_enqueue_script('szed-editor-js', SZED_PLUGIN_URL . 'assets/build/sizes-editor.build.js', [], 'asdf', true);
+
+    global $pagenow;
+
+    if ($pagenow === 'tools.php' && $_GET['page'] === 'szed-debug') {
+        wp_enqueue_media();
+    }
+});
