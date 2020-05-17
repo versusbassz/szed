@@ -1,9 +1,12 @@
 <?php
+use function szed\util\get_env;
+
 /** @var array $sizes */
 /** @var int $image_id */
 /** @var \WP_Post $image */
 
 $ajax_url = get_admin_url(null, 'admin-ajax.php?action=' . SZED_AJAX_ACTION_NAME);
+$is_debug = get_env('debug');
 ?>
 
 <div class="hh-editor-page">
@@ -106,5 +109,5 @@ $ajax_url = get_admin_url(null, 'admin-ajax.php?action=' . SZED_AJAX_ACTION_NAME
     szed.sizes = <?= json_encode($sizes); ?>;
     szed.ajax_url = '<?= $ajax_url ?>';
     szed.image_id = <?= $image_id ?>;
-    szed.debug = false;
+    szed.debug = <?= $is_debug ? 'true' : 'false' ?>;
 </script>

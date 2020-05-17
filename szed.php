@@ -10,6 +10,7 @@ License: GPL3
 
 namespace szed;
 
+use function szed\util\fetch_env;
 use function szed\util\get_attachment_sizes_for_editor;
 use function szed\util\get_crop_page_url;
 use function szed\util\is_valid_mime_type;
@@ -22,6 +23,7 @@ require_once __DIR__ . '/inc/ajax.php';
 
 define('SZED_VERSION', '0.1.0');
 define('SZED_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('SZED_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('SZED_AJAX_ACTION_NAME', 'szed-crop');
 define('SZED_ADMIN_PAGE_SLUG', 'szed');
 define('SZED_CAPABILITY', 'upload_files');
@@ -29,6 +31,8 @@ define('SZED_VALID_MIME_TYPES', [
     'image/jpeg',
     'image/png',
 ]);
+
+define('SZED_ENV', fetch_env());
 
 
 add_action('admin_menu', function () {

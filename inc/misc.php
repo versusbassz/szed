@@ -277,3 +277,44 @@ function get_crop_page_url(int $image_id)
     $result_url = get_admin_url(null, "/tools.php?page={$page_slug}&image-id={$image_id}");
     return $result_url;
 }
+
+// private helper
+function fetch_env()
+{
+    $file_path = SZED_PLUGIN_PATH . '/env.php';
+
+    if (! file_exists($file_path)) {
+        return [];
+    }
+
+    $env = require $file_path;
+
+    if (! is_array($env)) {
+        return [];
+    }
+
+    return $env;
+}
+
+// private helper
+function get_env(string $key = '')
+{
+    if (! defined('SZED_ENV')) {
+        return $key ? null : [];
+    }
+
+    // all params
+    if (! $key) {
+        $env = SZED_ENV;
+        return $env;
+    }
+
+    // only single key
+    $env = SZED_ENV;
+
+    if (isset($env[$key])) {
+        return $env[$key];
+    }
+
+    return null;
+}
