@@ -318,3 +318,16 @@ function get_env(string $key = '')
 
     return null;
 }
+
+function load_view($path, $data = [])
+{
+    if (! file_exists($path)) {
+        throw new \Exception(__FUNCTION__ . ": view file not exists: {$path}");
+    }
+
+    ob_start();
+
+    require $path;
+
+    return ob_get_clean();
+}
