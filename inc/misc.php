@@ -344,3 +344,20 @@ function load_view($path, $data = [])
 
     return ob_get_clean();
 }
+
+/**
+ * Check if Classic Editor plugin is active.
+ *
+ * @see https://wordpress.stackexchange.com/questions/320653/how-to-detect-the-usage-of-gutenberg
+ * @return bool
+ */
+function is_classic_editor_plugin_active()
+{
+    if (! function_exists('is_plugin_active')) {
+        include_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    $result = is_plugin_active('classic-editor/classic-editor.php');
+
+    return $result;
+}

@@ -20,6 +20,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/inc/debug-helpers.php';
 require_once __DIR__ . '/inc/misc.php';
 require_once __DIR__ . '/inc/ajax.php';
+require_once __DIR__ . '/inc/links.php';
 
 define('SZED_VERSION', '0.1.0');
 define('SZED_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -34,6 +35,7 @@ define('SZED_VALID_MIME_TYPES', [
 
 define('SZED_ENV', fetch_env());
 
+add_action('init', 'szed\\links\\add_links_in_admin_panel');
 
 add_action('admin_menu', function () {
 
@@ -90,14 +92,3 @@ add_action('init', function () {
         add_action('wp_ajax_' . SZED_AJAX_ACTION_NAME, 'szed\\ajax\\handle_ajax_response_callback');
     }
 });
-
-// @see https://developer.wordpress.org/reference/hooks/media_row_actions/
-add_filter('media_row_actions', function (array $actions, \WP_Post $post, bool $detached) {
-
-    if (is_valid_mime_type($post->post_mime_type)) {
-        $crop_page_url = get_crop_page_url($post->ID);
-        $actions['szed-crop'] = '<a target="_blank" href="' . esc_attr($crop_page_url) . '">Редактировать размеры</a>';
-    }
-
-    return $actions;
-}, 10, 3);
