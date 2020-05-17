@@ -1,0 +1,78 @@
+/* Grid */
+.hh-editor-page {
+	/*width:980px;*/
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+}
+
+.hh-editor-page__secondary {
+}
+
+.hh-editor-page__editor {
+	margin-right: 20px;
+}
+
+	/* Editor - Sizes list */
+.hh-sizes-list {
+	margin-bottom:20px;
+}
+
+.hh-sizes-list__item {
+	display: flex;
+	margin-bottom: 10px;
+}
+
+.hh-sizes-list__item-cell {
+	margin-right: 20px;
+}
+
+/* Editor*/
+.hh-editor {
+	width: 500px;
+	border: 1px solid #fca;
+}
+
+.hh-editor__image {
+	display: block;
+
+	/* This rule is very important, please don't ignore this */
+	max-width: 100%;
+}
+
+/* Editor - Buttons */
+.hh-editor__buttons-container {
+	margin-top:20px;
+}
+
+.hh-editor__buttons {
+}
+
+/* Editor - Previews */
+.hh-previews {
+	display:flex;
+	margin-top:20px;
+}
+
+.hh-previews__item {
+	margin-right:20px;
+	width: 200px;
+}
+
+.hh-previews__item-title {
+	margin-bottom:10px;
+	font-weight:bold;
+}
+
+.hh-previews__item-content {
+}
+
+.hh-previews__item-content img {
+	max-width: 100%;
+}
+
+.hh-preview-current {
+	width: 200px; /* required for cropperjs !!! */
+	height: 200px; /* required for cropperjs !!! */
+	overflow: hidden; /* required for cropperjs !!! */
+}

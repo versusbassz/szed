@@ -10,105 +10,90 @@ License: GPL3
 
 namespace szed;
 
-use WP_CLI;
-use function szed\util\get_sizes_global_data;
+use function szed\util\get_attachment_sizes_for_editor;
+use function szed\util\get_crop_page_url;
+use function szed\util\is_valid_mime_type;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-require_once __DIR__ . '/inc/debug.php';
+require_once __DIR__ . '/inc/debug-helpers.php';
 require_once __DIR__ . '/inc/misc.php';
+require_once __DIR__ . '/inc/ajax.php';
 
+define('SZED_VERSION', '0.1.0');
 define('SZED_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('SZED_AJAX_ACTION_NAME', 'szed-crop');
+define('SZED_ADMIN_PAGE_SLUG', 'szed');
+define('SZED_CAPABILITY', 'upload_files');
+define('SZED_VALID_MIME_TYPES', [
+    'image/jpeg',
+    'image/png',
+]);
 
 
 add_action('admin_menu', function () {
-   add_submenu_page(
+
+    if (! current_user_can(SZED_CAPABILITY)) {
+        return;
+    }
+
+    add_submenu_page(
        'tools.php',
-       'szed debug',
-       'szed debug',
-       'delete_plugins',
-       'szed-debug',
-       '\\szed\\render_debug_page'
-   );
+       'Sizes editor',
+       'Sizes editor',
+       SZED_CAPABILITY,
+       SZED_ADMIN_PAGE_SLUG,
+       '\\szed\\render_admin_page'
+    );
 });
 
-add_action('wp_body_open', '\\szed\\render_debug_page');
-
-function render_debug_page()
+function render_admin_page()
 {
-    echo '<h1>debug page content</h1>';
-
-    $image_id = 5;
-
-    $sizes = get_intermediate_image_sizes();
+    $image_id = isset($_GET['image-id']) && is_numeric($_GET['image-id']) ? absint($_GET['image-id']) : null;
 
     $image = get_post($image_id);
-    $image__meta = get_post_meta($image_id);
-    $image__attached_file = get_post_meta($image_id, '_wp_attached_file', true);
-    $image__attachment_meta = get_post_meta($image_id, '_wp_attachment_metadata', true);
+    $sizes = get_attachment_sizes_for_editor($image_id);
 
-//    dump($image__attachment_meta);
-    ?>
+    $is_valid_image_id = ! is_null($image_id) && $image instanceof \WP_Post && $image->post_type === 'attachment';
+    $is_valid_mime_type = is_valid_mime_type($image->post_mime_type);
 
-    <div style="margin-bottom: 40px;">
-        <input type="text" id="hh-chose-img" value="">
-    </div>
+    $show_editor = $is_valid_mime_type;
 
-    <div style="width: 800px; border: 1px solid #ffccaa;">
-        <div>
-            <img id="hh-image" src="<?= wp_get_attachment_url($image_id); ?>">
-        </div>
-    </div>
+    require __DIR__ . '/views/page-header.php';
 
-    <div>
-        <div class="hh-preview"></div>
-    </div>
-
-    <style type="text/css">
-        img {
-            display: block;
-
-            /* This rule is very important, please don't ignore this */
-            max-width: 100%;
-        }
-
-        .hh-preview {
-            width: 200px;
-        }
-
-        .hh-preview img {
-            max-width: 100%;
-        }
-    </style>
-
-    <?php
-}
-
-if (defined('WP_CLI')) {
-    WP_CLI::add_command('szed:debug', function () {
-        $image_id = 5;
-
-        $image__attachment_meta = get_post_meta($image_id, '_wp_attachment_metadata', true);
-
-//        dump($image__attachment_meta);
-
-//        $sizes = wp_get_attachment_image_sizes($image_id);
-//        dump($sizes);
-
-        add_image_size('test-square-small', 100, 100, true);
-
-        $sizes = get_sizes_global_data();
-        dump($sizes);
-    });
+    if ($show_editor) {
+        require __DIR__ . '/views/page.php';
+    } elseif (! $is_valid_mime_type) {
+        echo '<p>Некорректный ID изображения</p>';
+    } elseif (! $is_valid_image_id) {
+        echo '<p>Редактор не поддерживает данный формат изображения.<br>Поддерживаемые форматы: ' . implode(',', SZED_VALID_MIME_TYPES) . '</p>';
+    }
 }
 
 add_action('admin_enqueue_scripts', function () {
-    wp_enqueue_style('szed-cropper-css', SZED_PLUGIN_URL . 'assets/build/cropper.css');
-    wp_enqueue_script('szed-editor-js', SZED_PLUGIN_URL . 'assets/build/sizes-editor.build.js', [], 'asdf', true);
-
     global $pagenow;
 
-    if ($pagenow === 'tools.php' && $_GET['page'] === 'szed-debug') {
+    if ($pagenow === 'tools.php' && $_GET['page'] === SZED_ADMIN_PAGE_SLUG) {
         wp_enqueue_media();
+        wp_enqueue_style('szed-cropper-css', SZED_PLUGIN_URL . 'assets/build/cropper.css', [], SZED_VERSION);
+        wp_enqueue_style('szed-admin-css', SZED_PLUGIN_URL . 'assets/build/editor-page.css', [], SZED_VERSION);
+        wp_enqueue_script('szed-editor-js', SZED_PLUGIN_URL . 'assets/build/sizes-editor.build.js', ['jquery'], SZED_VERSION, true);
     }
 });
+
+add_action('init', function () {
+    if (wp_doing_ajax()) {
+        add_action('wp_ajax_' . SZED_AJAX_ACTION_NAME, 'szed\\ajax\\handle_ajax_response_callback');
+    }
+});
+
+// @see https://developer.wordpress.org/reference/hooks/media_row_actions/
+add_filter('media_row_actions', function (array $actions, \WP_Post $post, bool $detached) {
+
+    if (is_valid_mime_type($post->post_mime_type)) {
+        $crop_page_url = get_crop_page_url($post->ID);
+        $actions['szed-crop'] = '<a target="_blank" href="' . esc_attr($crop_page_url) . '">Редактировать размеры</a>';
+    }
+
+    return $actions;
+}, 10, 3);

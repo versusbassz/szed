@@ -6,10 +6,20 @@ const exec = require( 'child_process' ).exec;
 
 let assets = {};
 assets.path = './assets';
-assets.css = assets.path + '/css';
+assets.css = assets.path + '/styles';
 assets.js = assets.path + '/js';
 assets.build = assets.path + '/build';
 
+
+// Styles
+function css_admin(cb) {
+    pump([
+        gulp.src([
+            './assets/styles/editor-page.css',
+        ]),
+        gulp.dest(assets.build),
+    ], cb);
+}
 
 // Cropper
 function cropper(cb) {
@@ -36,11 +46,18 @@ function clean() {
 
 const build = gulp.series(
     clean,
+    css_admin,
     cropper,
     webpack
 );
 
 // Watchers
+const watch__css = () => {
+    gulp.watch([
+        assets.css + '/**/*.css',
+    ], gulp.series(css_admin));
+};
+
 const watch__js = () => {
     gulp.watch([
         assets.js + '/**/*.js',
@@ -48,9 +65,11 @@ const watch__js = () => {
 };
 
 const watch__all = gulp.parallel(
+    watch__css,
     watch__js,
 );
 
 
 exports.default = build;
+exports.build = build;
 exports.watch = watch__all;
