@@ -4,7 +4,8 @@
     "description": "---",
     "license": "LGPL-3.0-only",
     "require": {
-        "php": ">= 7.1"
+        "php": ">= 7.1",
+        "ext-json": "*"
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "^5.4",
