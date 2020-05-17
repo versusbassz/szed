@@ -76,3 +76,16 @@
 	height: 200px; /* required for cropperjs !!! */
 	overflow: hidden; /* required for cropperjs !!! */
 }
+
+/* Editor - Misc */
+.hh-misc {
+	margin-top: 20px;
+}
+
+.hh-misc__title {
+	margin-bottom:10px;
+	font-weight:bold;
+}
+
+.hh-misc__content {
+}

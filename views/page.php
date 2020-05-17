@@ -6,6 +6,8 @@ use function szed\util\get_env;
 /** @var \WP_Post $image */
 
 $ajax_url = get_admin_url(null, 'admin-ajax.php?action=' . SZED_AJAX_ACTION_NAME);
+$edit_url__list = get_edit_post_link($image_id);
+$edit_url__grid = get_admin_url(null , "/upload.php?item={$image_id}");
 $is_debug = get_env('debug');
 ?>
 
@@ -80,6 +82,17 @@ $is_debug = get_env('debug');
                 </div>
 
             </div>
+        </div>
+
+        <!-- Misc -->
+        <div class="hh-misc">
+            <div class="hh-misc__title">Прочее</div>
+            <div class="hh-misc__content">
+                <a target="_blank" href="<?= esc_attr($edit_url__list) ?>">Изменить параметры изображения (list, old style)</a>
+                <br>
+                <a target="_blank" href="<?= esc_attr($edit_url__grid) ?>">Изменить параметры изображения (in grid)</a>
+            </div>
+
         </div>
 
     </div>
