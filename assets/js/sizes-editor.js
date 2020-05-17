@@ -61,6 +61,10 @@ $('.js-szed__button-crop').click(function () {
             let $cur_size_input = $('.js-szed__size-select[data-size-id="' + size + '"]');
 
             $cur_size_input.attr('data-crop-params', JSON.stringify(new_crop_params));
+
+            // size row info update
+            let new_row_layout = response.data['row-layout'];
+            $('.js-szed__size-item[data-size-id="' + size + '"]').find('.js-szed__size-info').html(new_row_layout);
         }
     });
 });

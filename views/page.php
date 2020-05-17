@@ -1,5 +1,6 @@
 <?php
 use function szed\util\get_env;
+use function szed\util\load_view;
 
 /** @var array $sizes */
 /** @var int $image_id */
@@ -17,7 +18,6 @@ $is_debug = get_env('debug');
 
         <div class="hh-sizes-list">
             <?php foreach ($sizes as $size_id => $size_data) {
-                $file_exists = $size_data['file-exists'];
                 $crop_params = $size_data['image']['crop-params'][$size_id] ?? [];
                 ?>
 
@@ -34,35 +34,11 @@ $is_debug = get_env('debug');
                         >
                     </div>
 
-                    <div class="hh-sizes-list__item-cell" title="Системное имя размера изображений">
-                        ID:
-                        <?= $size_data['id'] ?>
+                    <div class="hh-sizes-list__item-info js-szed__size-info">
+                        <?= load_view(SZED_PLUGIN_PATH . '/views/size-info.php', [
+                            'size-data' => $size_data,
+                        ]); ?>
                     </div>
-
-                    <?php if ($size_data['data']['width'] || $size_data['data']['height']) { ?>
-
-                        <div class="hh-sizes-list__item-cell" title="Параметры размера">
-                            <?= (int) $size_data['data']['width'] ?>x<?= (int) $size_data['data']['height'] ?>
-                            <?= $size_data['data']['crop'] ? '(C)' : '' ?>
-                        </div>
-
-                    <?php } ?>
-
-                    <div class="hh-sizes-list__item-cell" title="Файл размера создан (в БД)">
-                        В БД:
-                        <?= $size_data['has-size'] ? 'Да' : 'Нет' ?>
-                    </div>
-
-                    <div class="hh-sizes-list__item-cell" title="Файл размер существует физически на диске">
-                        Физически:
-                        <?= $file_exists ? 'Да' : 'Нет' ?>
-                    </div>
-
-                    <?php if ($file_exists) { ?>
-                        <div class="hh-sizes-list__item-cell" title="Просмотр файла в отдельной вкладке">
-                            <a href="<?= esc_attr($size_data['image']['url']) ?>" target="_blank">Просмотр</a>
-                        </div>
-                    <?php } ?>
 
                 </div>
 

@@ -7,6 +7,7 @@ use function szed\util\arrays_equals;
 use function szed\util\get_attachment_sizes_for_editor;
 use function szed\util\get_size_file_name;
 use function szed\util\get_sizes_global_data;
+use function szed\util\load_view;
 
 function handle_ajax_response_callback()
 {
@@ -191,9 +192,17 @@ function handle_ajax_response(array $request)
         wp_update_attachment_metadata($image_id, $image_meta);
     }
 
+    // form new info for sizes list on editor page
+    $new_image_sizes = get_attachment_sizes_for_editor($image_id);
+    $row_layout = load_view(SZED_PLUGIN_PATH . '/views/size-info.php', [
+        'size-data' => $new_image_sizes[$size_id],
+    ]);
+
+    // form response
     $response = [
         'url' => wp_get_attachment_image_url($image_id, $size_id),
         'crop_params' => $params_for_meta,
+        'row-layout' => $row_layout,
     ];
 
     return $response;
