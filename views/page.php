@@ -106,4 +106,5 @@ $ajax_url = get_admin_url(null, 'admin-ajax.php?action=' . SZED_AJAX_ACTION_NAME
     szed.sizes = <?= json_encode($sizes); ?>;
     szed.ajax_url = '<?= $ajax_url ?>';
     szed.image_id = <?= $image_id ?>;
+    szed.debug = false;
 </script>

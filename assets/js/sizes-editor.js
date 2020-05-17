@@ -1,4 +1,5 @@
 import Cropper from 'cropperjs';
+import { log } from './debug';
 
 let editor;
 let size;
@@ -16,7 +17,6 @@ $('.js-szed__size-select').change(function () {
     $prev_size_image.attr('src', disable_cache_for_url(prev_size_url));
 
     let crop_params_raw = JSON.parse($input.attr('data-crop-params'));
-    console.log(crop_params_raw);
     let crop_params = crop_params_raw ? crop_params_raw : [];
 
     let $size_item = $input.parents('.js-szed__size-item').first();
@@ -34,13 +34,13 @@ $('.js-szed__button-crop').click(function () {
         return;
     }
 
-    console.log('Ajax request started');
+    log('Ajax request started');
     editor.disable();
 
     let data = editor.getData(true);
     data.size_id = size;
     data.image_id = szed.image_id;
-    console.log(data);
+    log(data, 'Request data:');
 
     $.ajax({
         type : 'POST',
@@ -49,8 +49,7 @@ $('.js-szed__button-crop').click(function () {
         data : data,
         dataType : 'json',
         success : function(response) {
-            console.log(response);
-
+            log(response, 'Response:');
             editor.enable();
 
             // prev_image set
