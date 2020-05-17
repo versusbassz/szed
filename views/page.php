@@ -19,13 +19,14 @@ $is_debug = get_env('debug');
         <div class="hh-sizes-list">
             <?php foreach ($sizes as $size_id => $size_data) {
                 $crop_params = $size_data['image']['crop-params'][$size_id] ?? [];
+                $can_crop = $size_data['data']['crop'] && $size_data['is-possible'];
                 ?>
 
                 <div class="hh-sizes-list__item js-szed__size-item" data-size-id="<?= esc_attr($size_id) ?>">
 
                     <div class="hh-sizes-list__item-cell" title="">
                         <input
-                            <?= $size_data['data']['crop'] ? '' : 'disabled' ?>
+                            <?= $can_crop ? '' : 'disabled' ?>
                             type="radio"
                             name="szed__size-select"
                             class="js-szed__size-select"

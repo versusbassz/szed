@@ -127,6 +127,7 @@ function calc_ratio(int $width, int $height, bool $crop)
  */
 function get_attachment_sizes(int $image_id)
 {
+    $image = get_post($image_id);
     $image_meta = wp_get_attachment_metadata($image_id);
 
     if (! is_array($image_meta) || ! isset($image_meta['sizes']) || ! is_array($image_meta['sizes']) || ! count($image_meta['sizes'])) {
@@ -154,8 +155,6 @@ function get_attachment_sizes(int $image_id)
             'crop-params' => $crop_params,
         ];
     }
-
-    $image = get_post($image_id);
 
     $sizes_result['full'] = [
         'id' => 'full',
@@ -207,6 +206,12 @@ function get_attachment_sizes_for_editor(int $image_id)
             'data' => $global_size,
             'has-size' => $image_has_size,
             'file-exists' => $image_has_size ? file_exists($image_size['path']) : false,
+            'is-possible' => $global_size['crop'] && is_size_possible(
+                $image_sizes['full']['width'],
+                $image_sizes['full']['height'],
+                $global_size['width'],
+                $global_size['height']
+            ),
             'image' => $image_size,
         ];
     }
@@ -269,6 +274,14 @@ function arrays_equals(array $list_1, array $list_2)
 function is_valid_mime_type(string $type)
 {
     return in_array($type, SZED_VALID_MIME_TYPES);
+}
+
+// this logic isn't enough coz of param crop (true/false)
+// this function should have interface like: (int image_id, int size_id) : return bool
+// and should be able to work with crop:false sizes
+function is_size_possible(int $source_width, int $source_height, int $size_width, int $size_height)
+{
+    return $source_width >= $size_width && $source_height >= $size_width;
 }
 
 function get_crop_page_url(int $image_id)
