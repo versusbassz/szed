@@ -139,6 +139,7 @@ function init_editor(size_id, crop_params) {
     editor = new Cropper(image, {
         viewMode: 1, // for availability of .setData()
         aspectRatio: current_size.data.ratio,
+        autoCropArea: 1,
         minCropBoxWidth: minCropBoxWidth,
         minCropBoxHeight: minCropBoxHeight,
         preview: '.js-szed__preview',
