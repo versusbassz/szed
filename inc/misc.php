@@ -281,7 +281,7 @@ function is_valid_mime_type(string $type)
 // and should be able to work with crop:false sizes
 function is_size_possible(int $source_width, int $source_height, int $size_width, int $size_height)
 {
-    return $source_width >= $size_width && $source_height >= $size_width;
+    return $source_width >= $size_width && $source_height >= $size_height;
 }
 
 function get_crop_page_url(int $image_id)
