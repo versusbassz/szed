@@ -147,6 +147,7 @@ function get_attachment_sizes(int $image_id)
             'width' => $size_data['width'],
             'height' => $size_data['height'],
             'mime-type' => $size_data['mime-type'],
+            'type' => get_type_by_mime($size_data['mime-type']),
             'path' => get_image_size_path($image_id, $size_id),
             'path-rel' => get_image_size_path($image_id, $size_id, true),
             'file' => $size_data['file'],
@@ -161,6 +162,7 @@ function get_attachment_sizes(int $image_id)
         'width' => $image_meta['width'],
         'height' => $image_meta['height'],
         'mime-type' => $image->post_mime_type,
+        'type' => get_type_by_mime($image->post_mime_type, 'full'),
         'path' => get_attached_file($image_id),
         'path-rel' => '/' . $image_meta['file'],
         'file' => basename($image_meta['file']),
@@ -291,6 +293,21 @@ function get_crop_page_url(int $image_id)
     return $result_url;
 }
 
+function get_type_by_mime(string $mime_type)
+{
+    $expected_types = [
+        'image/jpeg' => 'jpeg',
+        'image/png' => 'png',
+    ];
+
+    if (! in_array($mime_type, array_keys($expected_types))) {
+        return null;
+    }
+
+    $result = $expected_types[$mime_type];
+    return $result;
+}
+
 // private helper
 function fetch_env()
 {
@@ -358,6 +375,24 @@ function is_classic_editor_plugin_active()
     }
 
     $result = is_plugin_active('classic-editor/classic-editor.php');
+
+    return $result;
+}
+
+// temporary function. Delete after original size will be added to common sizes list
+function get_original_file_info(int $image_id)
+{
+    $image_path = wp_get_original_image_path($image_id);
+
+    $info = getimagesize($image_path);
+
+    $result = [
+        'width' => $info[0],
+        'height' => $info[1],
+        'mime-type' => $info['mime'],
+        'type' => get_type_by_mime($info['mime']),
+        'url' => wp_get_original_image_url($image_id),
+    ];
 
     return $result;
 }
