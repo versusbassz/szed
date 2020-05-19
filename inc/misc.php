@@ -153,7 +153,7 @@ function get_attachment_sizes(int $image_id)
             'file' => $size_data['file'],
             'url' => wp_get_attachment_image_url($image_id, $size_id),
             'size' => get_size_global_data($size_id),
-            'crop-params' => $crop_params,
+            'crop-params' => $crop_params[$size_id] ?? null,
         ];
     }
 
@@ -168,6 +168,7 @@ function get_attachment_sizes(int $image_id)
         'file' => basename($image_meta['file']),
         'url' => wp_get_attachment_image_url($image_id, 'full'),
         'size' => get_size_global_data('full'),
+        'crop-params' => null,
     ];
 
     return $sizes_result;

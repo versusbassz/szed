@@ -22,7 +22,7 @@ $original_size = get_original_file_info($image_id);
 
         <div class="hh-sizes-list">
             <?php foreach ($sizes as $size_id => $size_data) {
-                $crop_params = $size_data['image']['crop-params'][$size_id] ?? [];
+                $crop_params = $size_data['image']['crop-params'] ?? [];
                 $can_crop = $size_data['data']['crop'] && $size_data['is-possible'];
                 ?>
 
