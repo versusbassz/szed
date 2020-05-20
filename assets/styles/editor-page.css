@@ -13,9 +13,12 @@
 	margin-right: 20px;
 }
 
-	/* Editor - Sizes list */
+/* Editor - Sizes list */
 .hh-sizes-list {
 	margin-bottom:20px;
+
+	max-height: 330px;
+	overflow-y: auto;
 }
 
 .hh-sizes-list__item {
