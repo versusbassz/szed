@@ -1,13 +1,4 @@
 <?php
-/*
-Plugin Name: szed
-Description: ---
-Version: 0.1.0
-Author: Vladimir Sklyar
-Author URI: https://profiles.wordpress.org/versusbassz/
-License: GPL3
-*/
-
 namespace szed;
 
 use WP_Post;
@@ -18,15 +9,15 @@ use function szed\util\is_valid_mime_type;
 use function szed\integration\fly_dynamic_image_resizer\is_fly_dynamic_image_resizer_activated;
 use function szed\util\load_view;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-require_once __DIR__ . '/inc/debug-helpers.php';
-require_once __DIR__ . '/inc/misc.php';
-require_once __DIR__ . '/inc/ajax.php';
-require_once __DIR__ . '/inc/generation.php';
-require_once __DIR__ . '/inc/links.php';
-require_once __DIR__ . '/inc/integrations/fly-dynamic-image-resizer/fly-dynamic-image-resizer.php';
-require_once __DIR__ . '/inc/user-api/misc.php';
+require_once __DIR__ . '/debug-helpers.php';
+require_once __DIR__ . '/misc.php';
+require_once __DIR__ . '/ajax.php';
+require_once __DIR__ . '/generation.php';
+require_once __DIR__ . '/links.php';
+require_once __DIR__ . '/integrations/fly-dynamic-image-resizer/fly-dynamic-image-resizer.php';
+require_once __DIR__ . '/user-api/misc.php';
 
 define('SZED_VERSION', '0.1.0');
 define('SZED_PLUGIN_URL', plugin_dir_url(__FILE__));
