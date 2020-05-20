@@ -446,3 +446,17 @@ function get_original_file_info(int $image_id)
 
     return $result;
 }
+
+/**
+ * Returns version of a file for using in wp_enqueue_* API
+ * @param string $file_path Path to file in filesystem
+ *
+ * @return false|int
+ */
+function get_asset_version(string $file_path)
+{
+    $mtime = filemtime($file_path);
+    $ctime = filectime($file_path);
+
+    return $mtime > $ctime ? $mtime : $ctime;
+}

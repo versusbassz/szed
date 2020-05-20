@@ -12,6 +12,7 @@ namespace szed;
 
 use WP_Post;
 use function szed\util\fetch_env;
+use function szed\util\get_asset_version;
 use function szed\util\get_attachment_sizes_for_editor;
 use function szed\util\is_valid_mime_type;
 use function szed\integration\fly_dynamic_image_resizer\is_fly_dynamic_image_resizer_activated;
@@ -96,9 +97,28 @@ add_action('admin_enqueue_scripts', function () {
 
     if ($pagenow === 'tools.php' && $_GET['page'] === SZED_ADMIN_PAGE_SLUG) {
         wp_enqueue_media();
-        wp_enqueue_style('szed-cropper-css', SZED_PLUGIN_URL . 'assets/build/cropper.css', [], SZED_VERSION);
-        wp_enqueue_style('szed-admin-css', SZED_PLUGIN_URL . 'assets/build/editor-page.css', [], SZED_VERSION);
-        wp_enqueue_script('szed-editor-js', SZED_PLUGIN_URL . 'assets/build/sizes-editor.build.js', ['jquery'], SZED_VERSION, true);
+
+        wp_enqueue_style(
+            'szed-cropper-css',
+            SZED_PLUGIN_URL . 'assets/build/cropper.css',
+            [],
+            get_asset_version(SZED_PLUGIN_PATH . 'assets/build/cropper.css')
+        );
+
+        wp_enqueue_style(
+            'szed-admin-css',
+            SZED_PLUGIN_URL . 'assets/build/editor-page.css',
+            [],
+            get_asset_version(SZED_PLUGIN_PATH . 'assets/build/editor-page.css')
+        );
+
+        wp_enqueue_script(
+            'szed-editor-js',
+            SZED_PLUGIN_URL . 'assets/build/sizes-editor.build.js',
+            ['jquery'],
+            get_asset_version(SZED_PLUGIN_PATH . 'assets/build/sizes-editor.build.js'),
+            true
+        );
     }
 });
 
