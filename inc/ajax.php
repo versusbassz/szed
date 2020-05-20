@@ -185,6 +185,15 @@ function handle_ajax_response(array $request)
 
     $image_meta['szed-sizes-params'][$size_id] = $params_for_meta;
 
+    // removing old cropping params of other plugins for current size
+    if (isset($image_meta[SZED_MIC_META]) && isset($image_meta[SZED_MIC_META][$size_id])) {
+        unset($image_meta[SZED_MIC_META][$size_id]);
+
+        if (! count($image_meta[SZED_MIC_META])) {
+            unset($image_meta[SZED_MIC_META]);
+        }
+    }
+
     // execute saving attachment metadata
     if (! arrays_equals($image_meta_source, $image_meta)) {
 

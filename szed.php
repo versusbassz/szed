@@ -33,6 +33,8 @@ define('SZED_VALID_MIME_TYPES', [
     'image/png',
 ]);
 
+define('SZED_MIC_META', 'micSelectedArea');
+
 define('SZED_ENV', fetch_env());
 
 add_action('init', 'szed\\links\\add_links_in_admin_panel');

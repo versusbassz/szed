@@ -136,7 +136,7 @@ function get_attachment_sizes(int $image_id)
 
     $sizes_source = $image_meta['sizes'];
 
-    $crop_params = isset($image_meta['szed-sizes-params']) && is_array($image_meta['szed-sizes-params']) ? $image_meta['szed-sizes-params'] : [];
+    $crop_params = get_crop_params_from_meta($image_meta);
 
     $sizes_result = [];
 
@@ -162,7 +162,7 @@ function get_attachment_sizes(int $image_id)
         'width' => $image_meta['width'],
         'height' => $image_meta['height'],
         'mime-type' => $image->post_mime_type,
-        'type' => get_type_by_mime($image->post_mime_type, 'full'),
+        'type' => get_type_by_mime($image->post_mime_type),
         'path' => get_attached_file($image_id),
         'path-rel' => '/' . $image_meta['file'],
         'file' => basename($image_meta['file']),
@@ -306,6 +306,55 @@ function get_type_by_mime(string $mime_type)
     }
 
     $result = $expected_types[$mime_type];
+    return $result;
+}
+
+function get_crop_params_from_meta(array $image_meta)
+{
+    $sizes = array_keys(get_sizes_global_data());
+
+    $providers = [
+        'szed' => isset($image_meta['szed-sizes-params']) && is_array($image_meta['szed-sizes-params']) ? $image_meta['szed-sizes-params'] : [],
+        'mic' => isset($image_meta[SZED_MIC_META]) && is_array($image_meta[SZED_MIC_META]) ? $image_meta[SZED_MIC_META] : [],
+    ];
+
+    $result = [];
+
+    foreach ($sizes as $size_id) {
+
+        foreach ($providers as $provider_id => $provider_sizes) {
+            if (isset($provider_sizes[$size_id])) {
+                switch ($provider_id) {
+                    case 'szed':
+                        $result[$size_id] = $provider_sizes[$size_id];
+                        break 2;
+
+                    case 'mic':
+                        $result[$size_id] = convert_params_from_mic_to_szed($provider_sizes[$size_id]);
+                        break 2;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+    }
+
+    return $result;
+}
+
+function convert_params_from_mic_to_szed(array $mic_params)
+{
+    $result = [
+        'x' => absint($mic_params['x'] * $mic_params['scale']),
+        'y' => absint($mic_params['y'] * $mic_params['scale']),
+        'width' => absint($mic_params['w'] * $mic_params['scale']),
+        'height' => absint($mic_params['h'] * $mic_params['scale']),
+        'scaleX' => 1,
+        'scaleY' => 1,
+        'rotate' => 0,
+    ];
     return $result;
 }
 
