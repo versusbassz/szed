@@ -10,17 +10,21 @@ License: GPL3
 
 namespace szed;
 
+use WP_Post;
 use function szed\util\fetch_env;
 use function szed\util\get_attachment_sizes_for_editor;
-use function szed\util\get_crop_page_url;
 use function szed\util\is_valid_mime_type;
+use function szed\integration\fly_dynamic_image_resizer\is_fly_dynamic_image_resizer_activated;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 require_once __DIR__ . '/inc/debug-helpers.php';
 require_once __DIR__ . '/inc/misc.php';
 require_once __DIR__ . '/inc/ajax.php';
+require_once __DIR__ . '/inc/generation.php';
 require_once __DIR__ . '/inc/links.php';
+require_once __DIR__ . '/inc/integrations/fly-dynamic-image-resizer/fly-dynamic-image-resizer.php';
+require_once __DIR__ . '/inc/user-api/misc.php';
 
 define('SZED_VERSION', '0.1.0');
 define('SZED_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -38,6 +42,15 @@ define('SZED_MIC_META', 'micSelectedArea');
 define('SZED_ENV', fetch_env());
 
 add_action('init', 'szed\\links\\add_links_in_admin_panel');
+
+// changing generation of sizes
+add_action('init', function () {
+    if (! is_fly_dynamic_image_resizer_activated()) {
+        return;
+    }
+
+    add_filter('intermediate_image_sizes_advanced', 'szed\\util\\filter_generating_sizes', 10, 3);
+});
 
 add_action('admin_menu', function () {
 
@@ -62,7 +75,7 @@ function render_admin_page()
     $image = get_post($image_id);
     $sizes = get_attachment_sizes_for_editor($image_id);
 
-    $is_valid_image_id = ! is_null($image_id) && $image instanceof \WP_Post && $image->post_type === 'attachment';
+    $is_valid_image_id = ! is_null($image_id) && $image instanceof WP_Post && $image->post_type === 'attachment';
     $is_valid_mime_type = is_valid_mime_type($image->post_mime_type);
 
     $show_editor = $is_valid_mime_type;
