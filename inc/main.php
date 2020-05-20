@@ -19,9 +19,6 @@ require_once __DIR__ . '/links.php';
 require_once __DIR__ . '/integrations/fly-dynamic-image-resizer/fly-dynamic-image-resizer.php';
 require_once __DIR__ . '/user-api/misc.php';
 
-define('SZED_VERSION', '0.1.0');
-define('SZED_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('SZED_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('SZED_AJAX_ACTION_NAME', 'szed-crop');
 define('SZED_ADMIN_PAGE_SLUG', 'szed');
 define('SZED_CAPABILITY', 'upload_files');
