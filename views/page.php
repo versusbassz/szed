@@ -3,9 +3,15 @@ use function szed\util\get_env;
 use function szed\util\load_view;
 use function szed\util\get_original_file_info;
 
-/** @var array $sizes */
-/** @var int $image_id */
+/** @var array $data */
+
 /** @var \WP_Post $image */
+$image = $data['image'];
+
+/** @var array $sizes */
+$sizes = $data['sizes'];
+
+$image_id = $image->ID;
 
 $ajax_url = get_admin_url(null, 'admin-ajax.php?action=' . SZED_AJAX_ACTION_NAME);
 $edit_url__list = get_edit_post_link($image_id);
@@ -15,6 +21,8 @@ $is_debug = get_env('debug');
 $full_size = $sizes['full'];
 $original_size = get_original_file_info($image_id);
 ?>
+
+<?php require __DIR__ . '/page-header.php'; ?>
 
 <div class="hh-editor-page">
 

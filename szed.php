@@ -16,6 +16,7 @@ use function szed\util\get_asset_version;
 use function szed\util\get_attachment_sizes_for_editor;
 use function szed\util\is_valid_mime_type;
 use function szed\integration\fly_dynamic_image_resizer\is_fly_dynamic_image_resizer_activated;
+use function szed\util\load_view;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -71,25 +72,41 @@ add_action('admin_menu', function () {
 
 function render_admin_page()
 {
-    $image_id = isset($_GET['image-id']) && is_numeric($_GET['image-id']) ? absint($_GET['image-id']) : null;
+    $is_valid_image_id_param = isset($_GET['image-id']) && is_numeric($_GET['image-id']);
 
+    if (! $is_valid_image_id_param) {
+        echo load_view(SZED_PLUGIN_PATH . 'views/page-with-error.php', [
+            'message' => '<p>Некорректный ID изображения</p>',
+        ]);
+        return;
+    }
+
+    $image_id = absint($_GET['image-id']);
     $image = get_post($image_id);
-    $sizes = get_attachment_sizes_for_editor($image_id);
-
     $is_valid_image_id = ! is_null($image_id) && $image instanceof WP_Post && $image->post_type === 'attachment';
+
+    if (! $is_valid_image_id) {
+        echo load_view(SZED_PLUGIN_PATH . 'views/page-with-error.php', [
+            'message' => '<p>Изображение не найдено</p>',
+        ]);
+        return;
+    }
+
     $is_valid_mime_type = is_valid_mime_type($image->post_mime_type);
 
-    $show_editor = $is_valid_mime_type;
-
-    require __DIR__ . '/views/page-header.php';
-
-    if ($show_editor) {
-        require __DIR__ . '/views/page.php';
-    } elseif (! $is_valid_mime_type) {
-        echo '<p>Некорректный ID изображения</p>';
-    } elseif (! $is_valid_image_id) {
-        echo '<p>Редактор не поддерживает данный формат изображения.<br>Поддерживаемые форматы: ' . implode(',', SZED_VALID_MIME_TYPES) . '</p>';
+    if (! $is_valid_mime_type) {
+        echo load_view(SZED_PLUGIN_PATH . 'views/page-with-error.php', [
+            'message' => '<p>Редактор не поддерживает данный формат изображения.<br><b>Поддерживаемые форматы:</b> ' . implode(', ', SZED_VALID_MIME_TYPES) . '</p>',
+        ]);
+        return;
     }
+
+    $sizes = get_attachment_sizes_for_editor($image_id);
+
+    echo load_view(SZED_PLUGIN_PATH . 'views/page.php', [
+        'image' => $image,
+        'sizes' => $sizes,
+    ]);
 }
 
 add_action('admin_enqueue_scripts', function () {
