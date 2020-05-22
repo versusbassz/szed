@@ -8,6 +8,7 @@ Szed = Attachments **S**i**Z**es **ED**itor
 - works only with `{uploads-path}/{year}}/{month}}/{file-name}.{ext}` structure
 - doesnt work with non-boolean crop params, e.g.: `add_image_size(... crop=\[left, center\])`
 - doesnt have i18n, fow now
+- doesnt work with Multisite
 
 ## Requirements
 - PHP 7.1+
