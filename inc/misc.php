@@ -141,14 +141,18 @@ function get_attachment_sizes(int $image_id)
     $sizes_result = [];
 
     foreach ($sizes_source as $size_id => $size_data) {
+        $size_path = get_image_size_path($image_id, $size_id);
+
+        // compatibility with PTE
+        $mime_type = get_mime_type_from_size_data($size_data, $size_path);
 
         $sizes_result[$size_id] = [
             'id' => $size_id,
             'width' => $size_data['width'],
             'height' => $size_data['height'],
-            'mime-type' => $size_data['mime-type'],
-            'type' => get_type_by_mime($size_data['mime-type']),
-            'path' => get_image_size_path($image_id, $size_id),
+            'mime-type' => $mime_type,
+            'type' => get_type_by_mime((string) $mime_type),
+            'path' => $size_path,
             'path-rel' => get_image_size_path($image_id, $size_id, true),
             'file' => $size_data['file'],
             'url' => wp_get_attachment_image_url($image_id, $size_id),
@@ -459,4 +463,26 @@ function get_asset_version(string $file_path)
     $ctime = filectime($file_path);
 
     return $mtime > $ctime ? $mtime : $ctime;
+}
+
+// just a part of other function, for readability
+function get_mime_type_from_size_data(array $size_data, string $size_path) : ?string
+{
+    $mime_type = null;
+
+    // get mime from size data directly
+    if (isset($size_data['mime-type']) && is_string($size_data['mime-type']) && $size_data['mime-type']) {
+        $mime_type = $size_data['mime-type'];
+    }
+
+    // plugin PTE didnt save mime-type to size info in attachment meta, so... we try fetch it from file system
+    if (is_null($mime_type)) {
+        $image_info = getimagesize($size_path);
+
+        if (is_array($image_info) && isset($image_info['mime'])) {
+            $mime_type = $image_info['mime'];
+        }
+    }
+
+    return $mime_type;
 }
