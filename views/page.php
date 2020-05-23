@@ -94,6 +94,8 @@ $original_size = get_original_file_info($image_id);
                 <?= esc_html($original_size['height']) ?>
                 (<?= esc_html($original_size['type']) ?>)
                 <a href="<?= esc_attr($original_size['url']) ?>" target="_blank">Просмотр</a>
+                <br>
+                <b>ID изображения:</b> <?= esc_html($image_id) ?>
             </div>
 
         </div>
