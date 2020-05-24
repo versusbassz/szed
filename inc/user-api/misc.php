@@ -19,7 +19,7 @@ function get_attachment_image_src(int $attachment_id, string $size_id)
 
     if (! ($image instanceof WP_Post)) {
         return new WP_Error('szed.incorrect_attachment_id', 'Передан некорректный ID изображения');
-    } elseif ($image->post_type !== 'attachment') {
+    } elseif ($image->post_type !== SZED_ATTACHMENT_POST_TYPE) {
         return new WP_Error('szed.post_is_not_attachment', 'Запись не является изображением');
     }
 

@@ -5,6 +5,7 @@ use WP_Post;
 use function szed\util\fetch_env;
 use function szed\util\get_asset_version;
 use function szed\util\get_attachment_sizes_for_editor;
+use function szed\util\is_valid_image;
 use function szed\util\is_valid_mime_type;
 use function szed\integration\fly_dynamic_image_resizer\is_fly_dynamic_image_resizer_activated;
 use function szed\util\load_view;
@@ -28,6 +29,7 @@ define('SZED_VALID_MIME_TYPES', [
     'image/png',
 ]);
 
+define('SZED_ATTACHMENT_POST_TYPE', 'attachment');
 define('SZED_MIC_META', 'micSelectedArea');
 
 define('SZED_ENV', fetch_env());
@@ -80,9 +82,9 @@ function render_admin_page()
 
     $image_id = absint($_GET['image-id']);
     $image = get_post($image_id);
-    $is_valid_image_id = ! is_null($image_id) && $image instanceof WP_Post && $image->post_type === 'attachment';
+    $is_valid_image = is_valid_image($image);
 
-    if (! $is_valid_image_id) {
+    if (! $is_valid_image) {
         echo load_view(SZED_PLUGIN_PATH . 'views/page-with-error.php', [
             'message' => 'Изображение не найдено',
         ]);

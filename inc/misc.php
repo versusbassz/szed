@@ -496,3 +496,9 @@ function wp_error_to_assoc_array(\WP_Error $errors)
 
     return $result;
 }
+
+function is_valid_image($image)
+{
+    $result = $image instanceof \WP_Post && $image->post_type === SZED_ATTACHMENT_POST_TYPE;
+    return $result;
+}
