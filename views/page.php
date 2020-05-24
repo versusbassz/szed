@@ -15,7 +15,23 @@ $image_id = $image->ID;
 
 $ajax_url = get_admin_url(null, 'admin-ajax.php?action=' . SZED_AJAX_ACTION_NAME);
 $edit_url__list = get_edit_post_link($image_id);
-$edit_url__grid = get_admin_url(null , "/upload.php?item={$image_id}");
+
+$edit_url__grid_default = get_admin_url(null , "/upload.php?item={$image_id}");
+$user_grid_mode = get_user_meta(get_current_user_id(), 'wp_media_library_mode', true);
+
+switch ($user_grid_mode) {
+    case 'grid':
+        $edit_url__grid_direct = $edit_url__grid_default;
+        break;
+
+    case 'list':
+    default:
+        $edit_url__grid_direct = add_query_arg([
+            'mode' => 'grid',
+        ], $edit_url__grid_default);
+        break;
+}
+
 $is_debug = get_env('debug');
 
 $full_size = $sizes['full'];
@@ -83,7 +99,7 @@ $nonce = wp_create_nonce(SZED_NONCE);
             <div class="hh-misc__content">
                 <a target="_blank" href="<?= esc_attr($edit_url__list) ?>">Изменить параметры изображения (list, old style)</a>
                 <br>
-                <a target="_blank" href="<?= esc_attr($edit_url__grid) ?>">Изменить параметры изображения (in grid)</a>
+                <a target="_blank" href="<?= esc_attr($edit_url__grid_direct) ?>">Изменить параметры изображения (in grid)</a>
                 <br>
                 <br>
                 <b>Параметры полного размера:</b>
