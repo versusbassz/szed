@@ -24,6 +24,8 @@ $original_size = get_original_file_info($image_id);
 $nonce = wp_create_nonce(SZED_NONCE);
 ?>
 
+<div class="wrap">
+
 <?php require __DIR__ . '/page-header.php'; ?>
 
 <div class="hh-editor-page">
@@ -139,8 +141,10 @@ $nonce = wp_create_nonce(SZED_NONCE);
 
 </div>
 
+</div><!-- .wrap -->
+
 <script type="text/javascript">
-    var szed = {};
+    var szed = szed ? szed : {};
     szed.sizes = <?= json_encode($sizes); ?>;
     szed.ajax_url = '<?= $ajax_url ?>';
     szed.image_id = <?= $image_id ?>;

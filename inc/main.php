@@ -61,11 +61,19 @@ add_action('admin_menu', function () {
 
 function render_admin_page()
 {
+    if (! isset($_GET['image-id'])) {
+        echo load_view(SZED_PLUGIN_PATH . 'views/page-with-error.php', [
+            'message' => '',
+            'button-text' => 'Выбрать изображение',
+        ]);
+        return;
+    }
+
     $is_valid_image_id_param = isset($_GET['image-id']) && is_numeric($_GET['image-id']);
 
     if (! $is_valid_image_id_param) {
         echo load_view(SZED_PLUGIN_PATH . 'views/page-with-error.php', [
-            'message' => '<p>Некорректный ID изображения</p>',
+            'message' => 'Некорректный ID изображения',
         ]);
         return;
     }
@@ -76,7 +84,7 @@ function render_admin_page()
 
     if (! $is_valid_image_id) {
         echo load_view(SZED_PLUGIN_PATH . 'views/page-with-error.php', [
-            'message' => '<p>Изображение не найдено</p>',
+            'message' => 'Изображение не найдено',
         ]);
         return;
     }
@@ -85,7 +93,7 @@ function render_admin_page()
 
     if (! $is_valid_mime_type) {
         echo load_view(SZED_PLUGIN_PATH . 'views/page-with-error.php', [
-            'message' => '<p>Редактор не поддерживает данный формат изображения.<br><b>Поддерживаемые форматы:</b> ' . implode(', ', SZED_VALID_MIME_TYPES) . '</p>',
+            'message' => 'Редактор не поддерживает данный формат изображения.<br><b>Поддерживаемые форматы:</b> ' . implode(', ', SZED_VALID_MIME_TYPES),
         ]);
         return;
     }

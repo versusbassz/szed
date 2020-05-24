@@ -1,5 +1,6 @@
 import Cropper from 'cropperjs';
 import { log } from './debug';
+import './choose-image';
 
 let editor;
 let size;
