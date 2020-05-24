@@ -8,6 +8,7 @@ use function szed\util\get_attachment_sizes_for_editor;
 use function szed\util\get_size_file_name;
 use function szed\util\get_sizes_global_data;
 use function szed\util\load_view;
+use function szed\util\wp_error_to_assoc_array;
 
 function handle_ajax_response_callback()
 {
@@ -26,7 +27,7 @@ function _handle_ajax_response_callback(array $params)
     if (is_wp_error($result_data)) {
         $response = [
             'result' => 'fail',
-            'data' => $result_data->get_error_codes(),
+            'data' => wp_error_to_assoc_array($result_data),
             'debug' => [
                 'params' => $params,
             ],

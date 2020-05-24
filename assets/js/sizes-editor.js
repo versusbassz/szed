@@ -7,6 +7,8 @@ let image = document.getElementById('hh-image');
 let $image = $(image);
 
 let $prev_size_image = $('.js-szed__preview-old');
+let preloader = construct_preloader($('.js-szed__preloader'));
+let errors_block = construct_errors_block($('.js-szed__errors'))
 
 $('.js-szed__size-select').change(function () {
     let $input = $(this);
@@ -43,6 +45,9 @@ $('.js-szed__button-crop').click(function () {
     data.nonce = szed.nonce;
     log(data, 'Request data:');
 
+    errors_block.hide();
+    preloader.show();
+
     $.ajax({
         type : 'POST',
         cache : false,
@@ -51,7 +56,12 @@ $('.js-szed__button-crop').click(function () {
         dataType : 'json',
         success : function(response) {
             log(response, 'Response:');
-            editor.enable();
+
+            // check errors
+            if (response.result === 'fail') {
+                errors_block.show(response.data)
+                return;
+            }
 
             // prev_image set
             let new_url = response.data.url;
@@ -66,6 +76,13 @@ $('.js-szed__button-crop').click(function () {
             // size row info update
             let new_row_layout = response.data['row-layout'];
             $('.js-szed__size-item[data-size-id="' + size + '"]').find('.js-szed__size-info').html(new_row_layout);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            errors_block.show({'szed.request-error' : textStatus});
+        },
+        complete: () => {
+            editor.enable();
+            preloader.hide();
         }
     });
 });
@@ -176,5 +193,39 @@ function trigger_download(dataurl, filename) {
     a.click();
 }
 
+function construct_preloader($container) {
+    let hidden_class = 'hh-pending-info--hidden';
+
+    return {
+        show: () => {
+            $container.removeClass(hidden_class);
+        },
+        hide: () => {
+            $container.addClass(hidden_class);
+        },
+    }
+}
+
+function construct_errors_block($container) {
+    return {
+        show: (errors) => {
+            let content = '';
+
+            Object.entries(errors).forEach(([code, message]) => {
+                content += `<p>${message} (${code})</p>`;
+            });
+
+            $container.html(content)
+            $container.show();
+        },
+        hide: () => {
+            $container.hide();
+        },
+    }
+}
+
 // Start with 1st active size in list
 $('.js-szed__size-select:enabled').first().prop('checked', true).trigger('change');
+
+preloader.hide();
+errors_block.hide();

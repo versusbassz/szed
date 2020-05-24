@@ -486,3 +486,13 @@ function get_mime_type_from_size_data(array $size_data, string $size_path) : ?st
 
     return $mime_type;
 }
+
+function wp_error_to_assoc_array(\WP_Error $errors)
+{
+    $code = $errors->get_error_codes();
+    $messages = $errors->get_error_messages();
+
+    $result = array_combine($code, $messages);
+
+    return $result;
+}

@@ -122,6 +122,19 @@ $nonce = wp_create_nonce(SZED_NONCE);
             <?php } ?>
         </div>
 
+        <div class="hh-pending-info js-szed__preloader">
+            <div class="hh-pending-info__preloader hh-preloader">
+                <div class="hh-preloader__bounce1"></div>
+                <div class="hh-preloader__bounce2"></div>
+            </div>
+
+            <div class="hh-pending-info__text">Cropping...</div>
+        </div>
+
+        <div class="notice notice-error inline is-dismissible hh-errors js-szed__errors">
+            <p>Интересно будет посмотреть за их развитием, как команды.</p>
+        </div>
+
     </div>
 
 </div>
