@@ -22,6 +22,7 @@ require_once __DIR__ . '/user-api/misc.php';
 define('SZED_AJAX_ACTION_NAME', 'szed-crop');
 define('SZED_ADMIN_PAGE_SLUG', 'szed');
 define('SZED_CAPABILITY', 'upload_files');
+define('SZED_NONCE', 'szed-crop-image');
 define('SZED_VALID_MIME_TYPES', [
     'image/jpeg',
     'image/png',

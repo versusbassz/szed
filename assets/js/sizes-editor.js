@@ -40,6 +40,7 @@ $('.js-szed__button-crop').click(function () {
     let data = editor.getData(true);
     data.size_id = size;
     data.image_id = szed.image_id;
+    data.nonce = szed.nonce;
     log(data, 'Request data:');
 
     $.ajax({

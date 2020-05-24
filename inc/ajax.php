@@ -56,7 +56,10 @@ function handle_ajax_response(array $request)
         return new \WP_Error('szed.ajax.crop.user_doesnt_have_capabilities', 'У пользователя нет прав на редактирование медиа-файлов.');
     }
 
-    // TODO nonce/ajax referrer
+    // nonce verifying
+    if (! isset($request['nonce']) || ! is_string($request['nonce']) || ! wp_verify_nonce($request['nonce'], SZED_NONCE) ) {
+        return new \WP_Error('szed.ajax.crop.nonce_check_failed', 'Проверка токена операции закончилась неудачно. Пожалуйста, повторите попытку.');
+    }
 
     // correct params
     if (

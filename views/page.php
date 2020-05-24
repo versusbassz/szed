@@ -20,6 +20,8 @@ $is_debug = get_env('debug');
 
 $full_size = $sizes['full'];
 $original_size = get_original_file_info($image_id);
+
+$nonce = wp_create_nonce(SZED_NONCE);
 ?>
 
 <?php require __DIR__ . '/page-header.php'; ?>
@@ -130,4 +132,5 @@ $original_size = get_original_file_info($image_id);
     szed.ajax_url = '<?= $ajax_url ?>';
     szed.image_id = <?= $image_id ?>;
     szed.debug = <?= $is_debug ? 'true' : 'false' ?>;
+    szed.nonce = '<?= $nonce ?>';
 </script>
