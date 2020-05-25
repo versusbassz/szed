@@ -1,5 +1,6 @@
 <?php
 use function szed\util\get_env;
+use function szed\util\image_has_separate_original_file;
 use function szed\util\load_view;
 use function szed\util\get_original_file_info;
 
@@ -35,6 +36,7 @@ switch ($user_grid_mode) {
 $is_debug = get_env('debug');
 
 $full_size = $sizes['full'];
+$has_separate_original_file = image_has_separate_original_file($image_id);
 $original_size = get_original_file_info($image_id);
 
 $nonce = wp_create_nonce(SZED_NONCE);
@@ -97,24 +99,38 @@ $nonce = wp_create_nonce(SZED_NONCE);
         <div class="hh-misc">
             <div class="hh-misc__title">Прочее</div>
             <div class="hh-misc__content">
+                <!-- edit attachment: list -->
                 <a target="_blank" href="<?= esc_attr($edit_url__list) ?>">Изменить параметры изображения (list, old style)</a>
                 <br>
+
+                <!-- edit attachment: grid -->
                 <a target="_blank" href="<?= esc_attr($edit_url__grid_direct) ?>">Изменить параметры изображения (in grid)</a>
                 <br>
                 <br>
+
+                <!-- full size info -->
                 <b>Параметры полного размера:</b>
                 <?= esc_html($full_size['image']['width']) ?>
                 x
                 <?= esc_html($full_size['image']['height']) ?>
                 (<?= esc_html($full_size['image']['type']) ?>)
+                <a href="<?= esc_attr($sizes['full']['image']['url']) ?>" target="_blank">Просмотр</a>
                 <br>
+
+                <!-- original file info -->
                 <b>Параметры исходного файла:</b>
-                <?= esc_html($original_size['width']) ?>
-                x
-                <?= esc_html($original_size['height']) ?>
-                (<?= esc_html($original_size['type']) ?>)
-                <a href="<?= esc_attr($original_size['url']) ?>" target="_blank">Просмотр</a>
+                <?php if ($has_separate_original_file) { ?>
+                    <?= esc_html($original_size['width']) ?>
+                    x
+                    <?= esc_html($original_size['height']) ?>
+                    (<?= esc_html($original_size['type']) ?>)
+                    <a href="<?= esc_attr($original_size['url']) ?>" target="_blank">Просмотр</a>
+                <?php } else { ?>
+                    отсутствует (см. параметры полного размера).
+                <?php } ?>
                 <br>
+
+                <!-- attachment ID-->
                 <b>ID изображения:</b> <?= esc_html($image_id) ?>
             </div>
 

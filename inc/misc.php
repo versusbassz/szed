@@ -502,3 +502,11 @@ function is_valid_image($image)
     $result = $image instanceof \WP_Post && $image->post_type === SZED_ATTACHMENT_POST_TYPE;
     return $result;
 }
+
+function image_has_separate_original_file(int $image_id)
+{
+    $meta = wp_get_attachment_metadata($image_id);
+
+    $result = isset($meta['original_image']) && is_string($meta['original_image']) && $meta['original_image'];
+    return $result;
+}
