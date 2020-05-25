@@ -141,11 +141,7 @@ $nonce = wp_create_nonce(SZED_NONCE);
         </div>
 
         <div class="hh-pending-info js-szed__preloader">
-            <div class="hh-pending-info__preloader hh-preloader">
-                <div class="hh-preloader__bounce1"></div>
-                <div class="hh-preloader__bounce2"></div>
-            </div>
-
+            <div class="hh-pending-info__preloader hh-preloader spinner is-active"></div>
             <div class="hh-pending-info__text">Cropping...</div>
         </div>
 
