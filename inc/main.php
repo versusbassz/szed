@@ -115,6 +115,13 @@ add_action('admin_enqueue_scripts', function () {
         wp_enqueue_media();
 
         wp_enqueue_style(
+            'szed-fontello-css',
+            SZED_PLUGIN_URL . 'assets/fonts/fontello/css/fontello.css',
+            [],
+            get_asset_version(SZED_PLUGIN_PATH . 'assets/fonts/fontello/css/fontello.css')
+        );
+
+        wp_enqueue_style(
             'szed-cropper-css',
             SZED_PLUGIN_URL . 'assets/build/cropper.css',
             [],

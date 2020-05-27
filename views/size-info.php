@@ -10,32 +10,53 @@ $size_data = $data['size-data'];
 $file_exists = $size_data['file-exists'];
 ?>
 
-<div class="hh-sizes-list__item-cell" title="Системное имя размера изображений">
-    ID:
+<div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--id" title="Системное имя размера изображений">
     <?= $size_data['id'] ?>
 </div>
 
-<?php if ($size_data['data']['width'] || $size_data['data']['height']) { ?>
+<div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--params" title="Параметры размера">
 
-    <div class="hh-sizes-list__item-cell" title="Параметры размера">
+    <?php if ($size_data['data']['width'] || $size_data['data']['height']) { ?>
         <?= (int) $size_data['data']['width'] ?>x<?= (int) $size_data['data']['height'] ?>
-        <?= $size_data['data']['crop'] ? '(C)' : '' ?>
-    </div>
+        <?php if ($size_data['data']['crop']) { ?>
+            <i class="szed-icon-crop hh-sizes-list__crop-icon"></i>
+        <?php } ?>
 
-<?php } ?>
+    <?php } ?>
 
-<div class="hh-sizes-list__item-cell" title="Файл размера создан (в БД)">
-    В БД:
-    <?= $size_data['has-size'] ? 'Да' : 'Нет' ?>
 </div>
 
-<div class="hh-sizes-list__item-cell" title="Файл размер существует физически на диске">
-    Физически:
-    <?= $file_exists ? 'Да' : 'Нет' ?>
+<div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--misc">
+    <i
+        class="szed-icon-database"
+        style="<?= $size_data['has-size'] ? '' : ' opacity: 0.3; ' ?>"
+        title="Файл размера создан (в БД)"
+    ></i>
+
+    <i
+        class="szed-icon-hdd"
+        style="<?= $file_exists ? '' : ' opacity: 0.3; ' ?>"
+        title="Файл размер существует физически на диске"
+    ></i>
+
+    <?php if ($file_exists) { ?>
+        <a
+            href="<?= esc_attr($size_data['image']['url']) ?>"
+            target="_blank"
+            title="Просмотр файла в отдельной вкладке"
+        ><i class="szed-icon-eye"></i></a>
+    <?php } ?>
 </div>
 
-<?php if ($file_exists) { ?>
-    <div class="hh-sizes-list__item-cell" title="Просмотр файла в отдельной вкладке">
-        <a href="<?= esc_attr($size_data['image']['url']) ?>" target="_blank">Просмотр</a>
+
+<div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--more js-szed-extra-actions__root">
+    <div>
+        <a href="javascript:void(0)" class="hh-extra-actions-button js-szed-extra-actions__button"><i class="szed-icon-ellipsis-vert"></i></a>
     </div>
-<?php } ?>
+
+    <div class="hh-extra-actions">
+        <div class="hh-extra-actions__list js-szed-extra-actions__list">
+            <a href="<?= esc_attr($size_data['image']['url']) ?>" class="hh-extra-actions__item" download="">Download</a>
+        </div>
+    </div>
+</div>

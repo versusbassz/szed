@@ -51,6 +51,13 @@ $nonce = wp_create_nonce(SZED_NONCE);
     <div class="hh-editor-page__secondary">
 
         <div class="hh-sizes-list">
+            <div class="hh-sizes-list__item">
+                <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--choose"></div>
+                <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--id">ID</div>
+                <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--params">Params</div>
+                <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--misc">Misc</div>
+            </div>
+
             <?php foreach ($sizes as $size_id => $size_data) {
                 $crop_params = $size_data['image']['crop-params'] ?? [];
                 $can_crop = $size_data['data']['crop'] && $size_data['is-possible'];
@@ -58,12 +65,12 @@ $nonce = wp_create_nonce(SZED_NONCE);
 
                 <div class="hh-sizes-list__item js-szed__size-item" data-size-id="<?= esc_attr($size_id) ?>">
 
-                    <div class="hh-sizes-list__item-cell" title="">
+                    <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--choose">
                         <input
                             <?= $can_crop ? '' : 'disabled' ?>
                             type="radio"
                             name="szed__size-select"
-                            class="js-szed__size-select"
+                            class="hh-sizes-list__item-choose js-szed__size-select"
                             data-size-id="<?= esc_attr($size_id) ?>"
                             data-crop-params="<?= esc_attr(json_encode($crop_params)) ?>"
                         >

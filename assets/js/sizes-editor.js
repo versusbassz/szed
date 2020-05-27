@@ -124,6 +124,16 @@ $('.js-szed__button-debug').click(function () {
     trigger_download("data:text/html,HelloWorld!", "helloWorld.txt");
 });
 
+// Extra action menu - toggle visibility
+$(document).on('click', '.js-szed-extra-actions__button', function () {
+    let $link = $(this);
+    let $root = $link.parents('.js-szed-extra-actions__root');
+    let $menu = $root.find('.js-szed-extra-actions__list');
+
+    $link.toggleClass('hh-extra-actions-button--focused');
+    $menu.toggle();
+});
+
 function start_editor(size_id, crop_params) {
     if (editor) {
         editor.destroy();

@@ -30,8 +30,44 @@
 	margin-right: 20px;
 }
 
+.hh-sizes-list__item-cell:last-child {
+	margin-right: 0;
+}
+
+.hh-sizes-list__item-cell--choose {
+	width: 16px;
+	margin-right: 12px;
+}
+
+.hh-sizes-list__item-cell--id {
+	width: 150px;
+}
+
+.hh-sizes-list__item-cell--params {
+	width: 80px;
+}
+
+.hh-sizes-list__item-cell--misc {
+	width: 70px;
+	margin-right: 10px;
+}
+.hh-sizes-list__item-cell--more {
+}
+
+.hh-sizes-list__item-choose {
+	margin-right:0;
+}
+
 .hh-sizes-list__item-info {
 	display:flex;
+}
+
+.hh-sizes-list a {
+	text-decoration:none;
+}
+
+.hh-sizes-list a:focus {
+	box-shadow:none;
 }
 
 /* Editor*/
@@ -127,4 +163,49 @@
 }
 
 .hh-misc__content {
+}
+
+/* =========================================
+   Editor - extra action menu for size item
+   ======================================== */
+.hh-extra-actions-button {
+}
+
+.hh-extra-actions-button--focused {
+	padding: 5px 0;
+	background-color: #fff;
+}
+
+.hh-extra-actions {
+	position:relative;
+}
+
+.hh-extra-actions__list {
+	display: none;
+	position: absolute;
+	left:0;
+	top:0;
+
+	background-color:#fff;
+}
+
+.hh-extra-actions__item {
+	display:block;
+	padding:10px;
+}
+
+.hh-extra-actions__item:hover {
+	background-color:#f9f9f9;
+}
+
+/* Editor - icons font extending */
+[class^="szed-icon-"]:before, [class*=" szed-icon-"]:before {
+	font-size:15px;
+}
+
+.hh-sizes-list__crop-icon:before {
+	position: relative;
+	top: -1px;
+	color: #5d5d5d;
+	font-size: 13px;
 }
