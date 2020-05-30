@@ -7,6 +7,7 @@ use function szed\util\arrays_equals;
 use function szed\util\get_attachment_sizes_for_editor;
 use function szed\util\get_size_file_name;
 use function szed\util\get_sizes_global_data;
+use function szed\get_sizes_settings;
 use function szed\util\is_valid_image;
 use function szed\util\load_view;
 use function szed\util\wp_error_to_assoc_array;
@@ -208,8 +209,10 @@ function handle_ajax_response(array $request)
 
     // form new info for sizes list on editor page
     $new_image_sizes = get_attachment_sizes_for_editor($image_id);
+    $sizes_settings = get_sizes_settings();
     $row_layout = load_view(SZED_PLUGIN_PATH . '/views/size-info.php', [
         'size-data' => $new_image_sizes[$size_id],
+        'size-settings' => $sizes_settings[$size_id] ?? [],
     ]);
 
     // form response

@@ -63,19 +63,20 @@ function get_attachment_image_src(int $attachment_id, string $size_id)
     return $custom_url;
 }
 
-function get_sizes_help_content()
+function get_sizes_settings()
 {
     $sizes = wp_get_registered_image_subsizes();
 
-    $sizes_info = [];
+    $sizes_settings = [];
 
     foreach ($sizes as $size_id => $size_info) {
-        $sizes_info[$size_id] = [
+        $sizes_settings[$size_id] = [
+            'custom-title' => '',
             'content' => '',
         ];
     }
 
-    $result = apply_filters('szed/sizes_info', $sizes_info);
+    $result = apply_filters('szed/sizes_settings', $sizes_settings);
 
     return $result;
 }

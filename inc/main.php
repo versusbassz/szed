@@ -101,12 +101,12 @@ function render_admin_page()
     }
 
     $sizes = get_attachment_sizes_for_editor($image_id);
-    $sizes_help = get_sizes_help_content($image_id);
+    $sizes_settings = get_sizes_settings();
 
     echo load_view(SZED_PLUGIN_PATH . 'views/page.php', [
         'image' => $image,
         'sizes' => $sizes,
-        'sizes-help' => $sizes_help,
+        'sizes-settings' => $sizes_settings,
     ]);
 }
 

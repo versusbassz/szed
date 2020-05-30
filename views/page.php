@@ -12,8 +12,8 @@ $image = $data['image'];
 /** @var array $sizes */
 $sizes = $data['sizes'];
 
-/** @var array $sizes_help */
-$sizes_help = $data['sizes-help'];
+/** @var array $sizes_settings */
+$sizes_settings = $data['sizes-settings'];
 
 $image_id = $image->ID;
 
@@ -56,7 +56,7 @@ $nonce = wp_create_nonce(SZED_NONCE);
         <div class="hh-sizes-list">
             <div class="hh-sizes-list__item">
                 <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--choose"></div>
-                <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--id">Size id</div>
+                <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--id">Size</div>
                 <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--params">Params</div>
                 <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--misc">Misc</div>
             </div>
@@ -82,7 +82,7 @@ $nonce = wp_create_nonce(SZED_NONCE);
                     <div class="hh-sizes-list__item-info js-szed__size-info">
                         <?= load_view(SZED_PLUGIN_PATH . '/views/size-info.php', [
                             'size-data' => $size_data,
-                            'size-help' => $sizes_help[$size_id] ?? [],
+                            'size-settings' => $sizes_settings[$size_id] ?? [],
                         ]); ?>
                     </div>
 
@@ -185,7 +185,7 @@ $nonce = wp_create_nonce(SZED_NONCE);
 <script type="text/javascript">
     var szed = szed ? szed : {};
     szed.sizes = <?= json_encode($sizes); ?>;
-    szed.sizes_help = <?= json_encode($sizes_help); ?>;
+    szed.sizes_help = <?= json_encode($sizes_settings); ?>;
     szed.ajax_url = '<?= $ajax_url ?>';
     szed.image_id = <?= $image_id ?>;
     szed.debug = <?= $is_debug ? 'true' : 'false' ?>;

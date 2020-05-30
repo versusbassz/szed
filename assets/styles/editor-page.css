@@ -70,6 +70,12 @@
 	box-shadow:none;
 }
 
+.hh-sizes-list__size-id-sub-line {
+	display: inline-block;
+	margin-right: 6px;
+	color: #777;
+}
+
 /* Editor*/
 .hh-editor {
 	width: 500px;

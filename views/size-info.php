@@ -6,15 +6,24 @@ if (! isset($data['size-data']) || ! is_array($data['size-data'])) {
 }
 
 $size_data = $data['size-data'];
-$size_help = $data['size-help'];
+$size_settings = $data['size-settings'];
+$size_custom_title = isset($size_settings['custom-title']) && $size_settings['custom-title'] ? $size_settings['custom-title'] : null;
 
 $file_exists = $size_data['file-exists'];
 ?>
 
 <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--id">
-    <span title="Системное имя размера изображений"><?= $size_data['id'] ?></span>
 
-    <?php if (isset($size_help['content']) && $size_help['content']) { ?>
+    <!-- Системное имя размера изображений -->
+    <?php if ($size_custom_title) { ?>
+        <span><?= esc_html($size_custom_title) ?></span>
+        <br>
+        <span class="hh-sizes-list__size-id-sub-line">id: <?= $size_data['id'] ?></span>
+    <?php } else { ?>
+        <span><?= $size_data['id'] ?></span>
+    <?php } ?>
+
+    <?php if (isset($size_settings['content']) && $size_settings['content']) { ?>
 
         <a
             href="javascript:void(0)"
