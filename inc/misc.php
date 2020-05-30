@@ -8,7 +8,7 @@ namespace szed\util;
  *     id: string
  *     width: int
  *     height: int
- *     crop: bool
+ *     crop: bool|array
  *     default: bool
  */
 function get_sizes_global_data() : array
@@ -53,7 +53,7 @@ function get_size_global_data(string $size_id)
     } elseif (isset($_wp_additional_image_sizes[$size_id])) {
         $width = $_wp_additional_image_sizes[$size_id]['width'];
         $height = $_wp_additional_image_sizes[$size_id]['height'];
-        $crop = $_wp_additional_image_sizes[$size_id]['crop'];
+        $crop = (bool) $_wp_additional_image_sizes[$size_id]['crop']; // basic support of [left,top] crop type
 
         $size = [
             'id' => $size_id,
@@ -104,8 +104,12 @@ function get_size_type(string $size_id)
     }
 }
 
-function calc_ratio(int $width, int $height, bool $crop)
+function calc_ratio(int $width, int $height, $crop)
 {
+    if (! is_valid_crop_value($crop)) {
+        return null;
+    }
+
     if (! $crop || $height <= 0) {
         return null;
     }
@@ -501,6 +505,33 @@ function is_valid_image($image)
 {
     $result = $image instanceof \WP_Post && $image->post_type === SZED_ATTACHMENT_POST_TYPE;
     return $result;
+}
+
+function is_valid_crop_value($value)
+{
+    if (is_bool($value)) {
+        return true;
+    }
+
+    if (is_array($value)) {
+        $valid_x_values = [
+            'left',
+            'center',
+            'right',
+        ];
+
+        $valid_y_values = [
+            'top',
+            'center',
+            'bottom',
+        ];
+
+        if (count($value) === 2 && in_array($value[0], $valid_x_values) && in_array($value[1], $valid_y_values)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 function image_has_separate_original_file(int $image_id)
