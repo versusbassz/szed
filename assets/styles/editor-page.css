@@ -209,3 +209,13 @@
 	color: #5d5d5d;
 	font-size: 13px;
 }
+
+/* Editor - fancybox extending */
+.szed-fancybox .fancybox-bg {
+	/*background-color: transparent;*/
+	opacity: 0.5;
+}
+
+.szed-fancybox .fancybox-content p {
+	font-size:15px;
+}

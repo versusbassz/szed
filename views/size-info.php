@@ -6,12 +6,23 @@ if (! isset($data['size-data']) || ! is_array($data['size-data'])) {
 }
 
 $size_data = $data['size-data'];
+$size_help = $data['size-help'];
 
 $file_exists = $size_data['file-exists'];
 ?>
 
-<div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--id" title="Системное имя размера изображений">
-    <?= $size_data['id'] ?>
+<div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--id">
+    <span title="Системное имя размера изображений"><?= $size_data['id'] ?></span>
+
+    <?php if (isset($size_help['content']) && $size_help['content']) { ?>
+
+        <a
+            href="javascript:void(0)"
+            class="js-szed__size-wiki-icon"
+            data-size-id="<?= esc_attr($size_data['id']) ?>"
+        >&#x1F6C8;</a>
+
+    <?php } ?>
 </div>
 
 <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--params" title="Параметры размера">

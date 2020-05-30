@@ -134,6 +134,24 @@ $(document).on('click', '.js-szed-extra-actions__button', function () {
     $menu.toggle();
 });
 
+// Size info icon click (to modal window)
+$(document).on('click', '.js-szed__size-wiki-icon', function () {
+    let $link = $(this);
+    let size_id = $link.attr('data-size-id');
+    
+    if (! szed.sizes_help[size_id] || ! szed.sizes_help[size_id].content) {
+        return;
+    }
+
+    $.fancybox.open({
+        src  : szed.sizes_help[size_id].content,
+        type : 'html',
+        opts : {
+            baseClass: 'szed-fancybox'
+        }
+    });
+});
+
 function start_editor(size_id, crop_params) {
     if (editor) {
         editor.destroy();
