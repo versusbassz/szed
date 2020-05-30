@@ -129,10 +129,25 @@ add_action('admin_enqueue_scripts', function () {
         );
 
         wp_enqueue_style(
+            'szed-fancybox-css',
+            SZED_PLUGIN_URL . 'assets/build/jquery.fancybox.min.css',
+            [],
+            get_asset_version(SZED_PLUGIN_PATH . 'assets/build/jquery.fancybox.min.css')
+        );
+
+        wp_enqueue_style(
             'szed-admin-css',
             SZED_PLUGIN_URL . 'assets/build/editor-page.css',
             [],
             get_asset_version(SZED_PLUGIN_PATH . 'assets/build/editor-page.css')
+        );
+
+        wp_enqueue_script(
+            'szed-fancybox-js',
+            SZED_PLUGIN_URL . 'assets/build/jquery.fancybox.min.js',
+            ['jquery'],
+            get_asset_version(SZED_PLUGIN_PATH . 'assets/build/jquery.fancybox.min.js'),
+            true
         );
 
         wp_enqueue_script(

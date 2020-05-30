@@ -31,6 +31,17 @@ function cropper(cb) {
     ], cb);
 }
 
+// Fancybox
+function fancybox(cb) {
+    pump([
+        gulp.src([
+            './node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css',
+            './node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js',
+        ]),
+        gulp.dest(assets.build),
+    ], cb);
+}
+
 const webpack = (cb) => {
     exec('npx webpack', function (err, stdout, stderr) {
         console.log(stdout);
@@ -48,6 +59,7 @@ const build = gulp.series(
     clean,
     css_admin,
     cropper,
+    fancybox,
     webpack
 );
 

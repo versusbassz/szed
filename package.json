@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fancyapps/fancybox": "^3.5.7",
     "cropperjs": "^1.5.6"
   },
   "devDependencies": {
