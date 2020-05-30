@@ -155,8 +155,12 @@
 /* Editor - Errors */
 .hh-errors {
 	display:none;
+}
+
+.wrap .hh-errors {
 	margin: 20px 0 0 0; /* extending .notice from wp-core */
 }
+
 
 /* Editor - Misc */
 .hh-misc {
