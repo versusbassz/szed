@@ -108,9 +108,27 @@ $('.js-szed__button-download').click(function () {
         return;
     }
 
-    let result = editor.getCroppedCanvas().toDataURL('image/jpeg'); // TODO depending on soure mime-type ???
+    let mime_type = szed.image_mime_type;
+    let extension;
 
-    trigger_download(result, 'result.jpg');
+    switch (mime_type) {
+        case 'image/jpeg':
+            extension = 'jpg';
+            break;
+
+        case 'image/png':
+            extension = 'png';
+            break;
+
+        default:
+            console.error('Некорректный mime-type скачиваемого файла')
+            extension = 'jpg'; // trying to set jpeg as fallback...
+            return;
+    }
+
+    let result = editor.getCroppedCanvas().toDataURL(mime_type);
+
+    trigger_download(result, 'result.' + extension);
 });
 
 // Button - Debug
@@ -158,6 +176,7 @@ function start_editor(size_id, crop_params) {
     }
 
     let full_size_url = szed.sizes.full.image.url;
+    szed.image_mime_type = szed.sizes.full.image['mime-type'];
 
     if ($image.attr('src') !== full_size_url) {
         $image.attr('src', full_size_url);

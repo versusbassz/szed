@@ -188,6 +188,7 @@ $nonce = wp_create_nonce(SZED_NONCE);
     szed.sizes_help = <?= json_encode($sizes_settings); ?>;
     szed.ajax_url = '<?= $ajax_url ?>';
     szed.image_id = <?= $image_id ?>;
+    szed.image_mime_type = '';
     szed.debug = <?= $is_debug ? 'true' : 'false' ?>;
     szed.nonce = '<?= $nonce ?>';
 </script>
