@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /** @var array $data */
 
 if (! isset($data['size-data']) || ! is_array($data['size-data'])) {
@@ -10,6 +12,36 @@ $size_settings = $data['size-settings'];
 $size_custom_title = isset($size_settings['custom-title']) && $size_settings['custom-title'] ? $size_settings['custom-title'] : null;
 
 $file_exists = $size_data['file-exists'];
+
+$extra_links = [];
+
+if ($size_data['image']['url']) {
+    $extra_links[] = [
+        'url' => $size_data['image']['url'],
+        'text' => 'Download',
+        'attrs' => [
+            'download' => true,
+        ],
+    ];
+}
+
+$render_attrs = function (array $attrs = []) {
+    $result = '';
+
+    foreach ($attrs as $name => $value) {
+
+        $result .= PHP_EOL;
+        $result .= $name;
+
+        if (is_string($value) && $value) {
+            $result .= '="' . esc_attr($value) . '"';
+        }
+
+        $result .= PHP_EOL;
+    }
+
+    return $result;
+}
 ?>
 
 <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--id">
@@ -70,13 +102,26 @@ $file_exists = $size_data['file-exists'];
 
 
 <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--more js-szed-extra-actions__root">
-    <div>
-        <a href="javascript:void(0)" class="hh-extra-actions-button js-szed-extra-actions__button"><i class="szed-icon-ellipsis-vert"></i></a>
-    </div>
 
-    <div class="hh-extra-actions">
-        <div class="hh-extra-actions__list js-szed-extra-actions__list">
-            <a href="<?= esc_attr($size_data['image']['url']) ?>" class="hh-extra-actions__item" download="">Download</a>
+    <?php if (count($extra_links)) { ?>
+
+        <div>
+            <a href="javascript:void(0)" class="hh-extra-actions-button js-szed-extra-actions__button"><i class="szed-icon-ellipsis-vert"></i></a>
         </div>
-    </div>
+
+        <div class="hh-extra-actions">
+
+            <?php foreach ($extra_links as $link) { ?>
+                <div class="hh-extra-actions__list js-szed-extra-actions__list">
+                    <a
+                        href="<?= esc_attr($link['url']) ?>"
+                        class="hh-extra-actions__item"
+                        <?= $render_attrs($link['attrs']) ?>
+                    ><?= $link['text'] ?></a>
+                </div>
+            <?php } ?>
+
+        </div>
+
+    <?php } ?>
 </div>
