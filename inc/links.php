@@ -17,7 +17,11 @@ function add_links_in_admin_panel()
     add_action('print_media_templates', 'szed\links\add_link_to_media_library_ui', 10);
 }
 
-// @see https://developer.wordpress.org/reference/hooks/media_row_actions/
+/**
+ * Add link to row actions in Media - mode:list
+ *
+ * @see https://developer.wordpress.org/reference/hooks/media_row_actions/
+ */
 add_filter('media_row_actions', function (array $actions, \WP_Post $post, bool $detached) {
 
     if (is_valid_mime_type($post->post_mime_type)) {
@@ -49,6 +53,22 @@ function add_link_to_featured_image_metabox()
 
 <script>
     jQuery(document).ready(function($) {
+        function get_extension(url_raw) {
+            var url = new URL(url_raw);
+            var extension = filename.split('.').pop();
+            return extension;
+        }
+
+        function is_valid_extension(extension) {
+            var valid_extensions = [
+                'png',
+                'jpg',
+                'jpeg'
+            ];
+
+            var result = valid_extensions.includes(extension);
+            return result;
+        }
 
         var editor_url_template = '<a id="szed-featured-image-metabox-link" href="<?= esc_attr($editor_url) ?>" target="_blank">Редактировать размеры</a>';
 
