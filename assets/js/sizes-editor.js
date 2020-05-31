@@ -144,7 +144,15 @@ $('.js-szed__button-debug').click(function () {
 
 // Extra action menu - toggle visibility
 $(document).on('click', '.js-szed-extra-actions__button', function () {
+
     let $link = $(this);
+    let $current_size_item = $link.parents('.js-szed__size-item').first();
+
+    // hide extra actions for other sizes
+    $current_size_item.siblings().find('.js-szed-extra-actions__button').removeClass('hh-extra-actions-button--focused');
+    $current_size_item.siblings().find('.js-szed-extra-actions__list').hide();
+
+    // show extra actions for selected size
     let $root = $link.parents('.js-szed-extra-actions__root');
     let $menu = $root.find('.js-szed-extra-actions__list');
 

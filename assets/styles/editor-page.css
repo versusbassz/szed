@@ -193,8 +193,9 @@
 .hh-extra-actions__list {
 	display: none;
 	position: absolute;
-	left:0;
+	right: 0;
 	top:0;
+	z-index: 100; /* to be higher than icons in the list and maybe some other non-modal elements */
 
 	background-color:#fff;
 }
