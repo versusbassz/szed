@@ -102,10 +102,26 @@ function add_link_to_media_library_ui()
 <script>
     jQuery(document).ready(function($) {
 
+        // common
         var editor_url_template = '<a href="<?= esc_attr($editor_url) ?>" class="szed-js__edit-link" target="_blank">Редактировать размеры</a>';
 
         var current_edit_id = 0;
         var current_media_id = 0;
+
+        // for Media:grid
+        var initial_url = location.href;
+        var initial_media_id = get_item_id_from_url(location.href);
+
+        function get_item_id_from_url(url) {
+            var historyRegexp = /\?item=([0-9]+)/;
+            var historyRegexpMatch = historyRegexp.exec(url);
+
+            if (historyRegexpMatch && historyRegexpMatch.length) {
+                return historyRegexpMatch[1];
+            }
+
+            return null;
+        }
 
         setInterval(function() {
 
@@ -136,21 +152,33 @@ function add_link_to_media_library_ui()
             // Media - grid layout
             if ($('.attachment-details .details-image').length) {
                 try {
-                    var media_post_id = null;
+                    var media_post_id = get_item_id_from_url(location.href);
 
-                    var historyRegexp = /\?item=([0-9]+)/;
-                    var historyRegexpMatch = historyRegexp.exec(location.href);
-
-                    if (historyRegexpMatch.length) {
-                        media_post_id = historyRegexpMatch[1];
+                    // this condition is for bug in wordpress core
+                    // how to reproduce this situation:
+                    //     start media:grid with item_id={int} -->
+                    //     close image details window -->
+                    //     open same (initial) image details window -->
+                    //     bug: url isn't recovered to proper value (with item_id)
+                    // variable "button_exists" placed below is for this case too
+                    if (! media_post_id && initial_media_id) {
+                        media_post_id = initial_media_id;
                     }
 
-                    if (current_media_id !== media_post_id) {
+                    var item_id_changed = current_media_id !== media_post_id;
+
+                    // this variable is to handle bug described above
+                    var button_exists = $('.attachment-details .szed-js__edit-link').length;
+
+                    if (item_id_changed || ! button_exists) {
                         remove_link('.szed-js__edit-link');
                         current_media_id = media_post_id;
 
                         var link = editor_url_template.split('image-id=0').join('image-id=' + media_post_id);
-                        $('.button.edit-attachment').after($(link).addClass('button').css({'margin-left' : '5px'}) );
+                        $('.button.edit-attachment')
+                            .after($(link)
+                            .addClass('button')
+                            .css({'margin-left' : '5px'}));
                     }
                 } catch (e) {
                     console.log(e);
