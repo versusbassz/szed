@@ -43,7 +43,15 @@ function fancybox(cb) {
 }
 
 const webpack = (cb) => {
-    exec('npx webpack', function (err, stdout, stderr) {
+    exec('npx webpack --env.mode=development', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+};
+
+const webpack_production = (cb) => {
+    exec('npx webpack --env.mode=production', function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
         cb(err);
@@ -61,6 +69,14 @@ const build = gulp.series(
     cropper,
     fancybox,
     webpack
+);
+
+const release = gulp.series(
+    clean,
+    css_admin,
+    cropper,
+    fancybox,
+    webpack_production
 );
 
 // Watchers
@@ -84,4 +100,8 @@ const watch__all = gulp.parallel(
 
 exports.default = build;
 exports.build = build;
+exports.release = release;
 exports.watch = watch__all;
+
+exports.webpack = webpack;
+exports.webpack_production = webpack_production;

@@ -14,7 +14,7 @@ release:
 	composer validate
 	composer install --no-dev
 	npm ci
-	npx gulp
+	npx gulp release
 
 	mkdir -p ./dist
 	rm -rf ./dist/*
