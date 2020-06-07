@@ -3,9 +3,6 @@
   "version": "0.2.0",
   "description": "---",
   "private": true,
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -18,8 +15,19 @@
     "babel-loader": "^8.1.0",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
+    "husky": "^4.2.5",
     "pump": "^3.0.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "make lint-php"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
+    }
   }
 }
