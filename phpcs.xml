@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<ruleset name="Szed">
+    <description>The coding standard for WordPress plugin "Szed".</description>
+
+    <!-- Check all PHP files in directory tree by default. -->
+    <arg name="extensions" value="php"/>
+
+    <arg name="colors" />
+    <arg value="p" />
+
+    <config name="installed_paths" value="../../slevomat/coding-standard"/><!-- relative path from PHPCS source location -->
+
+    <autoload>vendor/autoload.php</autoload>
+
+    <!--
+    Check these tags in search for project to find all ignore cases
+    // phpcs:disable
+    // phpcs:enable
+    // phpcs:ignoreFile
+    -->
+
+
+    <!-- Files -->
+
+    <file>inc/</file>
+    <file>views/</file>
+    <file>env.example.php</file>
+    <file>szed.php</file>
+
+
+    <!-- Rules (PSR12) -->
+
+    <rule ref="PSR12">
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+    </rule>
+
+
+    <!-- Rules (PSR12) - changes -->
+
+    <!-- Exclude side effect detection for some files -->
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <exclude-pattern>*/main\.php$</exclude-pattern>
+        <exclude-pattern>*/szed\.php$</exclude-pattern>
+    </rule>
+
+    <!-- Disable this check coz we use multiline conditions -->
+    <rule ref="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen">
+        <severity>0</severity>
+    </rule>
+
+
+    <!-- Rules (other default sets) -->
+
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+    <rule ref="Generic.Formatting.SpaceAfterNot"/>
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+    <rule ref="Generic.PHP.NoSilencedErrors"/>
+    <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+
+    <rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
+    <rule ref="Squiz.PHP.DisallowMultipleAssignments"/>
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1" />
+            <property name="ignoreNewlines" value="true" />
+        </properties>
+    </rule>
+
+
+    <!-- Rules (Slevomat) -->
+
+    <rule ref="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces">
+        <properties>
+            <property name="linesCountAfterOpeningBrace" value="0" />
+            <property name="linesCountBeforeClosingBrace" value="0" /> <!-- copy of PSR2.Classes.ClassDeclaration.CloseBraceAfterBody -->
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+    <rule ref="SlevomatCodingStandard.Classes.TraitUseDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
+    <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators"/>
+    <rule ref="SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators"/>
+    <rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison"/> <!-- copy of Generic.ControlStructures.DisallowYodaConditions -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.AssignmentInCondition"/>
+    <rule ref="SlevomatCodingStandard.ControlStructures.LanguageConstructWithParentheses"/>
+    <rule ref="SlevomatCodingStandard.ControlStructures.NewWithParentheses"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.NamespaceDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.RequireOneNamespaceInFile"/>
+    <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon"/>
+</ruleset>

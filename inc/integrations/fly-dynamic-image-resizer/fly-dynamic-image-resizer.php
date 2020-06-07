@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace szed\integration\fly_dynamic_image_resizer;

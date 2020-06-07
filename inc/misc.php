@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace szed\util;
@@ -11,7 +12,7 @@ namespace szed\util;
  *     crop: bool|array
  *     default: bool
  */
-function get_sizes_global_data() : array
+function get_sizes_global_data(): array
 {
     $intermediate_image_sizes = get_intermediate_image_sizes();
 
@@ -346,7 +347,6 @@ function get_crop_params_from_meta(array $image_meta)
                 }
             }
         }
-
     }
 
     return $result;
@@ -470,7 +470,7 @@ function get_asset_version(string $file_path)
 }
 
 // just a part of other function, for readability
-function get_mime_type_from_size_data(array $size_data, string $size_path) : ?string
+function get_mime_type_from_size_data(array $size_data, string $size_path): ?string
 {
     $mime_type = null;
 

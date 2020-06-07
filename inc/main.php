@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace szed;
 
 use WP_Post;
+
 use function szed\util\fetch_env;
 use function szed\util\get_asset_version;
 use function szed\util\get_attachment_sizes_for_editor;
@@ -35,6 +39,7 @@ define('SZED_MIC_META', 'micSelectedArea');
 define('SZED_ENV', fetch_env());
 
 add_action('init', 'szed\\links\\add_links_in_admin_panel');
+add_filter('media_row_actions', 'szed\\links\\add_link_to_media_row_actions', 10, 3);
 
 // changing generation of sizes
 add_action('init', function () {
@@ -52,12 +57,12 @@ add_action('admin_menu', function () {
     }
 
     add_submenu_page(
-       'tools.php',
-       'Sizes editor',
-       'Sizes editor',
-       SZED_CAPABILITY,
-       SZED_ADMIN_PAGE_SLUG,
-       '\\szed\\render_admin_page'
+        'tools.php',
+        'Sizes editor',
+        'Sizes editor',
+        SZED_CAPABILITY,
+        SZED_ADMIN_PAGE_SLUG,
+        '\\szed\\render_admin_page'
     );
 });
 

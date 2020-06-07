@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace szed\links;
@@ -17,16 +18,18 @@ function add_links_in_admin_panel()
     add_action('print_media_templates', 'szed\links\add_link_to_media_library_ui', 10);
 }
 
-// @see https://developer.wordpress.org/reference/hooks/media_row_actions/
-add_filter('media_row_actions', function (array $actions, \WP_Post $post, bool $detached) {
-
+/**
+ * @see https://developer.wordpress.org/reference/hooks/media_row_actions/
+ */
+function add_link_to_media_row_actions(array $actions, \WP_Post $post, bool $detached)
+{
     if (is_valid_mime_type($post->post_mime_type)) {
         $crop_page_url = get_crop_page_url($post->ID);
         $actions['szed-crop'] = '<a target="_blank" href="' . esc_attr($crop_page_url) . '">Редактировать размеры</a>';
     }
 
     return $actions;
-}, 10, 3);
+}
 
 
 /**

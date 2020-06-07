@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace szed;
 
 use WP_Error;
 use WP_Post;
+
 use function szed\integration\fly_dynamic_image_resizer\is_fly_dynamic_image_resizer_activated;
 
 /**

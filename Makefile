@@ -33,3 +33,17 @@ release:
 	cp -r ./views ./dist
 
 	make build
+
+
+## PHP code-style
+lint-php:
+	@ vendor/bin/phpcs -s
+
+lint-php-summary:
+	@ vendor/bin/phpcs -s --report=summary
+
+lint-php-report:
+	@ vendor/bin/phpcs --report-file=custom/phpcs-report.txt
+
+lint-php-fix:
+	@ vendor/bin/phpcbf

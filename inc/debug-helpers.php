@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace szed\debug;
@@ -28,7 +29,7 @@ function dump($value, $die = false, $htmlspecialchars = true, $var_dump_strict =
         echo $content;
 
         if ($die === true) {
-            die();
+            die;
         }
 
         return;
@@ -41,6 +42,6 @@ function dump($value, $die = false, $htmlspecialchars = true, $var_dump_strict =
     echo "<pre>{$content}</pre>";
 
     if ($die === true) {
-        die();
+        die;
     }
 }

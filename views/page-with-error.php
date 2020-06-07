@@ -1,4 +1,5 @@
 <?php
+
 /** @var array $data */
 
 use function szed\util\get_crop_page_url;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace szed\ajax;
@@ -19,7 +20,7 @@ function handle_ajax_response_callback()
     $response = _handle_ajax_response_callback($request);
 
     echo json_encode($response);
-    die();
+    die;
 }
 
 function _handle_ajax_response_callback(array $params)
@@ -60,7 +61,7 @@ function handle_ajax_response(array $request)
     }
 
     // nonce verifying
-    if (! isset($request['nonce']) || ! is_string($request['nonce']) || ! wp_verify_nonce($request['nonce'], SZED_NONCE) ) {
+    if (! isset($request['nonce']) || ! is_string($request['nonce']) || ! wp_verify_nonce($request['nonce'], SZED_NONCE)) {
         return new \WP_Error('szed.ajax.crop.nonce_check_failed', 'Проверка токена операции закончилась неудачно. Пожалуйста, повторите попытку.');
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 use function szed\util\get_env;
 use function szed\util\image_has_separate_original_file;
 use function szed\util\load_view;
@@ -20,7 +21,7 @@ $image_id = $image->ID;
 $ajax_url = get_admin_url(null, 'admin-ajax.php?action=' . SZED_AJAX_ACTION_NAME);
 $edit_url__list = get_edit_post_link($image_id);
 
-$edit_url__grid_default = get_admin_url(null , "/upload.php?item={$image_id}");
+$edit_url__grid_default = get_admin_url(null, "/upload.php?item={$image_id}");
 $user_grid_mode = get_user_meta(get_current_user_id(), 'wp_media_library_mode', true);
 
 switch ($user_grid_mode) {
