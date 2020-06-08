@@ -19,3 +19,10 @@ export function disableCacheForUrl(url) {
 
   return newUrl.toString();
 }
+
+export function triggerDownload(dataurl, filename) {
+  const a = document.createElement('a');
+  a.href = dataurl;
+  a.setAttribute('download', filename);
+  a.click();
+}

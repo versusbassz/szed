@@ -3,7 +3,7 @@ import constructErrorsBlock from './components/errors-block';
 import constructPreloader from './components/preloader';
 import { log } from './debug';
 import initChooseImageLogic from './choose-image';
-import { disableCacheForUrl } from './util';
+import { disableCacheForUrl, triggerDownload } from './util';
 
 let editor;
 let size;
@@ -232,13 +232,6 @@ function initEditor(sizeId, cropParams) {
       }
     },
   });
-}
-
-function triggerDownload(dataurl, filename) {
-  const a = document.createElement('a');
-  a.href = dataurl;
-  a.setAttribute('download', filename);
-  a.click();
 }
 
 // Start with 1st active size in list
