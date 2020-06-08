@@ -2,7 +2,8 @@ import Cropper from 'cropperjs';
 import constructErrorsBlock from './components/errors-block';
 import constructPreloader from './components/preloader';
 import { log } from './debug';
-import './choose-image';
+import initChooseImageLogic from './choose-image';
+
 
 let editor;
 let size;
@@ -12,6 +13,8 @@ const $image = $(image);
 const $prevSizeImage = $('.js-szed__preview-old');
 const preloader = constructPreloader($('.js-szed__preloader'));
 const errorsBlock = constructErrorsBlock($('.js-szed__errors'));
+
+initChooseImageLogic();
 
 $('.js-szed__size-select').change(function () {
   const $input = $(this);

@@ -1,11 +1,5 @@
 import { getEditorPageUrl } from './util';
 
-const button = document.querySelector('.js-szed__choose-image');
-
-if (button) {
-  button.addEventListener('click', handleClick);
-}
-
 function handleClick() {
   const frame = new wp.media.view.MediaFrame.Select({
     // Modal title
@@ -44,4 +38,13 @@ function handleClick() {
   });
 
   frame.open();
+}
+
+// eslint-disable-next-line import/prefer-default-export
+export function initChooseImageLogic() {
+  const button = document.querySelector('.js-szed__choose-image');
+
+  if (button) {
+    button.addEventListener('click', handleClick);
+  }
 }
