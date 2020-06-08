@@ -1,0 +1,30 @@
+root = true
+
+[*]
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+end_of_line = lf
+
+[.babelrc]
+indent_style = space
+indent_size = 2
+
+[composer.json]
+indent_style = space
+indent_size = 4
+
+[Makefile]
+indent_style = tab
+
+[package.json]
+indent_style = space
+indent_size = 2
+
+[phpcs.xml]
+indent_style = space
+indent_size = 4
+
+[README.md]
+indent_style = space
+indent_size = 4
