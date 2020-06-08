@@ -3,7 +3,7 @@ import constructErrorsBlock from './components/errors-block';
 import constructPreloader from './components/preloader';
 import { log } from './debug';
 import initChooseImageLogic from './choose-image';
-
+import { disableCacheForUrl } from './util';
 
 let editor;
 let size;
@@ -232,19 +232,6 @@ function initEditor(sizeId, cropParams) {
       }
     },
   });
-}
-
-function disableCacheForUrl(url) {
-  if (!url) {
-    return '';
-  }
-
-  const newUrl = new URL(url);
-  const queryArgs = newUrl.searchParams;
-  queryArgs.set('timestamp', Date.now());
-  newUrl.search = queryArgs.toString();
-
-  return newUrl.toString();
 }
 
 function triggerDownload(dataurl, filename) {

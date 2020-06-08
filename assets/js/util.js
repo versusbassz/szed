@@ -6,3 +6,16 @@ export function getEditorPageUrl(imageId) {
 
   return url;
 }
+
+export function disableCacheForUrl(url) {
+  if (!url) {
+    return '';
+  }
+
+  const newUrl = new URL(url);
+  const queryArgs = newUrl.searchParams;
+  queryArgs.set('timestamp', Date.now());
+  newUrl.search = queryArgs.toString();
+
+  return newUrl.toString();
+}
