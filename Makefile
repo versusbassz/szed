@@ -6,7 +6,6 @@ ci:
 	make lint
 
 build:
-	make ci
 	composer install
 	npm ci
 	npx gulp
@@ -53,7 +52,7 @@ lint-php-report:
 lint-php-fix:
 	@ vendor/bin/phpcbf
 
-## PHP code-style
+## Javascript code-style
 lint-js:
 	@ npx eslint .
 
