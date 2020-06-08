@@ -3,15 +3,16 @@ default:
 
 ci:
 	composer validate
+	make lint
 
 build:
-	composer validate
+	make ci
 	composer install
 	npm ci
 	npx gulp
 
 release:
-	composer validate
+	make ci
 	composer install --no-dev
 	npm ci
 	npx gulp release
@@ -34,6 +35,10 @@ release:
 
 	make build
 
+## Common lint command
+lint:
+	make lint-php
+	make lint-js
 
 ## PHP code-style
 lint-php:
@@ -47,3 +52,10 @@ lint-php-report:
 
 lint-php-fix:
 	@ vendor/bin/phpcbf
+
+## PHP code-style
+lint-js:
+	@ npx eslint .
+
+lint-js-fix:
+	@ npx eslint --fix .
