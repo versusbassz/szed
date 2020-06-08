@@ -14,6 +14,59 @@ const $prevSizeImage = $('.js-szed__preview-old');
 const preloader = constructPreloader($('.js-szed__preloader'));
 const errorsBlock = constructErrorsBlock($('.js-szed__errors'));
 
+function initEditor(sizeId, cropParams) {
+  const currentSize = szed.sizes[sizeId];
+
+  // cropbox minimal dimentions
+  const imageWidthVisible = $image.width();
+  const imageHeightVisible = $image.height();
+  const imageWidthNatural = image.naturalWidth;
+  const imageHeightNatural = image.naturalHeight;
+
+  /* eslint-disable max-len */
+  const minCropBoxWidth = Math.ceil(currentSize.data.width * (imageWidthVisible / imageWidthNatural));
+  const minCropBoxHeight = Math.ceil(currentSize.data.height * (imageHeightVisible / imageHeightNatural));
+  /* eslint-enable max-len */
+
+  // init
+  editor = new Cropper(image, {
+    viewMode: 1, // for availability of .setData()
+    aspectRatio: currentSize.data.ratio,
+    autoCropArea: 1,
+    minCropBoxWidth,
+    minCropBoxHeight,
+    preview: '.js-szed__preview',
+    guides: false,
+    movable: false,
+    rotatable: false,
+    zoomable: false,
+    ready() {
+      if (cropParams) {
+        editor.setData(cropParams);
+      }
+    },
+  });
+}
+
+function startEditor(sizeId, cropParams) {
+  if (editor) {
+    editor.destroy();
+  }
+
+  const fullSizeUrl = szed.sizes.full.image.url;
+  szed.image_mime_type = szed.sizes.full.image['mime-type'];
+
+  if ($image.attr('src') !== fullSizeUrl) {
+    $image.attr('src', fullSizeUrl);
+    $image.on('load', () => {
+      initEditor(sizeId, cropParams);
+    });
+    return;
+  }
+
+  initEditor(sizeId, cropParams);
+}
+
 initChooseImageLogic();
 
 $('.js-szed__size-select').change(function () {
@@ -180,59 +233,6 @@ $(document).on('click', '.js-szed__size-wiki-icon', function () {
     },
   });
 });
-
-function startEditor(sizeId, cropParams) {
-  if (editor) {
-    editor.destroy();
-  }
-
-  const fullSizeUrl = szed.sizes.full.image.url;
-  szed.image_mime_type = szed.sizes.full.image['mime-type'];
-
-  if ($image.attr('src') !== fullSizeUrl) {
-    $image.attr('src', fullSizeUrl);
-    $image.on('load', () => {
-      initEditor(sizeId, cropParams);
-    });
-    return;
-  }
-
-  initEditor(sizeId, cropParams);
-}
-
-function initEditor(sizeId, cropParams) {
-  const currentSize = szed.sizes[sizeId];
-
-  // cropbox minimal dimentions
-  const imageWidthVisible = $image.width();
-  const imageHeightVisible = $image.height();
-  const imageWidthNatural = image.naturalWidth;
-  const imageHeightNatural = image.naturalHeight;
-
-  /* eslint-disable max-len */
-  const minCropBoxWidth = Math.ceil(currentSize.data.width * (imageWidthVisible / imageWidthNatural));
-  const minCropBoxHeight = Math.ceil(currentSize.data.height * (imageHeightVisible / imageHeightNatural));
-  /* eslint-enable max-len */
-
-  // init
-  editor = new Cropper(image, {
-    viewMode: 1, // for availability of .setData()
-    aspectRatio: currentSize.data.ratio,
-    autoCropArea: 1,
-    minCropBoxWidth,
-    minCropBoxHeight,
-    preview: '.js-szed__preview',
-    guides: false,
-    movable: false,
-    rotatable: false,
-    zoomable: false,
-    ready() {
-      if (cropParams) {
-        editor.setData(cropParams);
-      }
-    },
-  });
-}
 
 // Start with 1st active size in list
 $('.js-szed__size-select:enabled').first().prop('checked', true).trigger('change');
