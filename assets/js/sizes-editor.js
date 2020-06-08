@@ -1,4 +1,6 @@
 import Cropper from 'cropperjs';
+import constructErrorsBlock from './components/errors-block';
+import constructPreloader from './components/preloader';
 import { log } from './debug';
 import './choose-image';
 
@@ -247,37 +249,6 @@ function triggerDownload(dataurl, filename) {
   a.href = dataurl;
   a.setAttribute('download', filename);
   a.click();
-}
-
-function constructPreloader($container) {
-  const hiddenClass = 'hh-pending-info--hidden';
-
-  return {
-    show: () => {
-      $container.removeClass(hiddenClass);
-    },
-    hide: () => {
-      $container.addClass(hiddenClass);
-    },
-  };
-}
-
-function constructErrorsBlock($container) {
-  return {
-    show: (errors) => {
-      let content = '';
-
-      Object.entries(errors).forEach(([code, message]) => {
-        content += `<p>${message} (${code})</p>`;
-      });
-
-      $container.html(content);
-      $container.show();
-    },
-    hide: () => {
-      $container.hide();
-    },
-  };
 }
 
 // Start with 1st active size in list
