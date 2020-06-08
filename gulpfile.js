@@ -1,107 +1,111 @@
-let gulp = require('gulp');
-let del = require('del');
-let pump = require('pump');
+const gulp = require('gulp');
+const del = require('del');
+const pump = require('pump');
 
-const exec = require( 'child_process' ).exec;
+const { exec } = require('child_process');
 
-let assets = {};
+const assets = {};
 assets.path = './assets';
-assets.css = assets.path + '/styles';
-assets.js = assets.path + '/js';
-assets.build = assets.path + '/build';
+assets.css = `${assets.path}/styles`;
+assets.js = `${assets.path}/js`;
+assets.build = `${assets.path}/build`;
 
 
 // Styles
-function css_admin(cb) {
-    pump([
-        gulp.src([
-            './assets/styles/editor-page.css',
-        ]),
-        gulp.dest(assets.build),
-    ], cb);
+function cssAdmin(cb) {
+  pump([
+    gulp.src([
+      './assets/styles/editor-page.css',
+    ]),
+    gulp.dest(assets.build),
+  ], cb);
 }
 
 // Cropper
 function cropper(cb) {
-    pump([
-        gulp.src([
-            './node_modules/cropperjs/dist/cropper.css',
-        ]),
-        gulp.dest(assets.build),
-    ], cb);
+  pump([
+    gulp.src([
+      './node_modules/cropperjs/dist/cropper.css',
+    ]),
+    gulp.dest(assets.build),
+  ], cb);
 }
 
 // Fancybox
 function fancybox(cb) {
-    pump([
-        gulp.src([
-            './node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css',
-            './node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js',
-        ]),
-        gulp.dest(assets.build),
-    ], cb);
+  pump([
+    gulp.src([
+      './node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css',
+      './node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js',
+    ]),
+    gulp.dest(assets.build),
+  ], cb);
 }
 
 const webpack = (cb) => {
-    exec('npx webpack --env.mode=development', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
-    });
+  exec('npx webpack --env.mode=development', (err, stdout, stderr) => {
+    /* eslint-disable no-console */
+    console.log(stdout);
+    console.log(stderr);
+    /* eslint-enable no-console */
+    cb(err);
+  });
 };
 
-const webpack_production = (cb) => {
-    exec('npx webpack --env.mode=production', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
-    });
+const webpackProduction = (cb) => {
+  exec('npx webpack --env.mode=production', (err, stdout, stderr) => {
+    /* eslint-disable no-console */
+    console.log(stdout);
+    console.log(stderr);
+    /* eslint-enable no-console */
+    cb(err);
+  });
 };
 
 // Tech tasks
 function clean() {
-    return del(assets.build + '/*');
+  return del(`${assets.build}/*`);
 }
 
 const build = gulp.series(
-    clean,
-    css_admin,
-    cropper,
-    fancybox,
-    webpack
+  clean,
+  cssAdmin,
+  cropper,
+  fancybox,
+  webpack,
 );
 
 const release = gulp.series(
-    clean,
-    css_admin,
-    cropper,
-    fancybox,
-    webpack_production
+  clean,
+  cssAdmin,
+  cropper,
+  fancybox,
+  webpackProduction,
 );
 
 // Watchers
-const watch__css = () => {
-    gulp.watch([
-        assets.css + '/**/*.css',
-    ], gulp.series(css_admin));
+const watchCss = () => {
+  gulp.watch([
+    `${assets.css}/**/*.css`,
+  ], gulp.series(cssAdmin));
 };
 
-const watch__js = () => {
-    gulp.watch([
-        assets.js + '/**/*.js',
-    ], gulp.series(webpack));
+const watchJs = () => {
+  gulp.watch([
+    `${assets.js}/**/*.js`,
+  ], gulp.series(webpack));
 };
 
-const watch__all = gulp.parallel(
-    watch__css,
-    watch__js,
+const watchAll = gulp.parallel(
+  watchCss,
+  watchJs,
 );
 
 
 exports.default = build;
 exports.build = build;
 exports.release = release;
-exports.watch = watch__all;
+exports.watch = watchAll;
 
 exports.webpack = webpack;
-exports.webpack_production = webpack_production;
+exports.webpack_production = webpackProduction;
