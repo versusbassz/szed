@@ -2,7 +2,7 @@ import Cropper from 'cropperjs';
 import constructErrorsBlock from './components/errors-block';
 import constructPreloader from './components/preloader';
 import { log } from './debug';
-import initChooseImageLogic from './choose-image';
+import { initChooseImageLogic } from './choose-image';
 import { disableCacheForUrl, triggerDownload } from './util';
 
 let editor;
@@ -69,8 +69,8 @@ function startEditor(sizeId, cropParams) {
 
 initChooseImageLogic();
 
-$('.js-szed__size-select').change(function () {
-  const $input = $(this);
+$('.js-szed__size-select').change((e) => {
+  const $input = $(e.target);
 
   const sizeId = $input.attr('data-size-id');
 
@@ -200,8 +200,8 @@ $('.js-szed__button-debug').click(() => {
 });
 
 // Extra action menu - toggle visibility
-$(document).on('click', '.js-szed-extra-actions__button', function () {
-  const $link = $(this);
+$(document).on('click', '.js-szed-extra-actions__button', (e) => {
+  const $link = $(e.target);
   const $currentSizeItem = $link.parents('.js-szed__size-item').first();
 
   // hide extra actions for other sizes
@@ -217,8 +217,8 @@ $(document).on('click', '.js-szed-extra-actions__button', function () {
 });
 
 // Size info icon click (to modal window)
-$(document).on('click', '.js-szed__size-wiki-icon', function () {
-  const $link = $(this);
+$(document).on('click', '.js-szed__size-wiki-icon', (e) => {
+  const $link = $(e.target);
   const sizeId = $link.attr('data-size-id');
 
   if (!szed.sizes_help[sizeId] || !szed.sizes_help[sizeId].content) {
