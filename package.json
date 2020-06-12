@@ -27,6 +27,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "make lint"
   },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "IE 11"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint",
