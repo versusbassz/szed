@@ -18,6 +18,8 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^4.1.0",
     "husky": "^4.2.5",
     "pump": "^3.0.0",
     "webpack": "^4.43.0",

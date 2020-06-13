@@ -1,6 +1,8 @@
 const gulp = require('gulp');
 const del = require('del');
+const concat = require('gulp-concat');
 const pump = require('pump');
+const scss = require('gulp-sass');
 
 const { exec } = require('child_process');
 
@@ -15,8 +17,10 @@ assets.build = `${assets.path}/build`;
 function cssAdmin(cb) {
   pump([
     gulp.src([
-      './assets/styles/editor-page.css',
+      './assets/styles/editor-page.scss',
     ]),
+    scss().on('error', scss.logError),
+    concat('editor-page.css'),
     gulp.dest(assets.build),
   ], cb);
 }
@@ -86,7 +90,7 @@ const release = gulp.series(
 // Watchers
 const watchCss = () => {
   gulp.watch([
-    `${assets.css}/**/*.css`,
+    `${assets.css}/**/*.scss`,
   ], gulp.series(cssAdmin));
 };
 
