@@ -3,6 +3,9 @@ const del = require('del');
 const concat = require('gulp-concat');
 const pump = require('pump');
 const scss = require('gulp-sass');
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const sourcemaps = require('gulp-sourcemaps');
 
 const { exec } = require('child_process');
 
@@ -15,12 +18,19 @@ assets.build = `${assets.path}/build`;
 
 // Styles
 function cssAdmin(cb) {
+  const plugins = [
+    autoprefixer,
+  ];
+
   pump([
     gulp.src([
       './assets/styles/editor-page.scss',
     ]),
+    sourcemaps.init(),
     scss().on('error', scss.logError),
     concat('editor-page.css'),
+    postcss(plugins),
+    sourcemaps.write('.'),
     gulp.dest(assets.build),
   ], cb);
 }
