@@ -1,16 +1,24 @@
+/* Variables */
+$color-white: #fff;
+$color-white-2: #f9f9f9;
+
+$color-black-2: #5d5d5d;
+$color-black-3: #777;
+
+
 /* Grid */
 .hh-editor-page {
-	/*width:980px;*/
+	// width:980px;
 	display: flex;
 	flex-direction: row-reverse;
 	justify-content: flex-end;
-}
 
-.hh-editor-page__secondary {
-}
+	&__secondary {
+	}
 
-.hh-editor-page__editor {
-	margin-right: 20px;
+	&__editor {
+		margin-right: 20px;
+	}
 }
 
 /* Editor - Sizes list */
@@ -19,111 +27,112 @@
 
 	max-height: 330px;
 	overflow-y: auto;
-}
 
-.hh-sizes-list__item {
-	display: flex;
-	margin-bottom: 10px;
-}
+	&__item {
+		display: flex;
+		margin-bottom: 10px;
+	}
 
-.hh-sizes-list__item-cell {
-	margin-right: 20px;
-}
+	&__item-cell {
+		margin-right: 20px;
 
-.hh-sizes-list__item-cell:last-child {
-	margin-right: 0;
-}
+		&:last-child {
+			margin-right: 0;
+		}
 
-.hh-sizes-list__item-cell--choose {
-	width: 16px;
-	margin-right: 12px;
-}
+		&--choose {
+			width: 16px;
+			margin-right: 12px;
+		}
 
-.hh-sizes-list__item-cell--id {
-	width: 150px;
-}
+		&--id {
+			width: 150px;
+		}
 
-.hh-sizes-list__item-cell--params {
-	width: 80px;
-}
+		&--params {
+			width: 80px;
+		}
 
-.hh-sizes-list__item-cell--misc {
-	width: 70px;
-	margin-right: 10px;
-}
-.hh-sizes-list__item-cell--more {
-}
+		&--misc {
+			width: 70px;
+			margin-right: 10px;
+		}
 
-.hh-sizes-list__item-choose {
-	margin-right:0;
-}
+		&--more {
+		}
+	}
 
-.hh-sizes-list__item-info {
-	display:flex;
-}
+	&__item-choose {
+		margin-right:0;
+	}
 
-.hh-sizes-list a {
-	text-decoration:none;
-}
+	&__item-info {
+		display:flex;
+	}
 
-.hh-sizes-list a:focus {
-	box-shadow:none;
-}
+	a {
+		text-decoration:none;
 
-.hh-sizes-list__size-id-sub-line {
-	display: inline-block;
-	margin-right: 6px;
-	color: #777;
+		&:focus {
+			box-shadow:none;
+		}
+	}
+
+	&__size-id-sub-line {
+		display: inline-block;
+		margin-right: 6px;
+		color: $color-black-3;
+	}
 }
 
 /* Editor*/
 .hh-editor {
 	width: 500px;
 	border: 1px solid #fca;
-}
 
-.hh-editor__image {
-	display: block;
+	&__image {
+		display: block;
 
-	/* This rule is very important, please don't ignore this */
-	max-width: 100%;
-}
+		// This rule is very important, please don't ignore this
+		max-width: 100%;
+	}
 
-/* Editor - Buttons */
-.hh-editor__buttons-container {
-	margin-top:20px;
-}
+	/* Editor - Buttons */
+	&__buttons-container {
+		margin-top:20px;
+	}
 
-.hh-editor__buttons {
+	&__buttons {
+	}
 }
 
 /* Editor - Previews */
 .hh-previews {
 	display:flex;
 	margin-top:20px;
-}
 
-.hh-previews__item {
-	margin-right:20px;
-	width: 200px;
-}
+	&__item {
+		margin-right:20px;
+		width: 200px;
+	}
 
-.hh-previews__item-title {
-	margin-bottom:10px;
-	font-weight:bold;
-}
+	&__item-title {
+		margin-bottom:10px;
+		font-weight:bold;
+	}
 
-.hh-previews__item-content {
-}
+	&__item-content {
 
-.hh-previews__item-content img {
-	max-width: 100%;
+		img {
+			max-width: 100%;
+		}
+	}
 }
 
 .hh-preview-current {
-	width: 200px; /* required for cropperjs !!! */
-	height: 200px; /* required for cropperjs !!! */
-	overflow: hidden; /* required for cropperjs !!! */
+	width: 200px; // required for cropperjs !!!
+	height: 200px; // required for cropperjs !!!
+	overflow: hidden; // required for cropperjs !!!
 }
 
 /* Editor - Preloader */
@@ -131,19 +140,19 @@
 	display: flex;
 	margin-top: 20px;
 	align-items: center;
-}
 
-.hh-pending-info--hidden {
-	display:none;
-}
+	&--hidden {
+		display:none;
+	}
 
-.hh-pending-info__preloader {
-	margin: 0; /* wp-core reset */
-	margin-right: 10px;
-}
+	&__preloader {
+		margin: 0; // wp-core reset
+		margin-right: 10px;
+	}
 
-.hh-pending-info__text {
-	margin-right: 10px;
+	&__text {
+		margin-right: 10px;
+	}
 }
 
 .hh-preloader-wrapper {
@@ -158,72 +167,70 @@
 }
 
 .wrap .hh-errors {
-	margin: 20px 0 0 0; /* extending .notice from wp-core */
+	margin: 20px 0 0 0; // extending .notice from wp-core
 }
 
 
 /* Editor - Misc */
 .hh-misc {
 	margin-top: 20px;
+
+	&__title {
+		margin-bottom:10px;
+		font-weight:bold;
+	}
+
+	&__content {
+	}
 }
 
-.hh-misc__title {
-	margin-bottom:10px;
-	font-weight:bold;
-}
-
-.hh-misc__content {
-}
-
-/* =========================================
-   Editor - extra action menu for size item
-   ======================================== */
+/* Editor - extra action menu for size item */
 .hh-extra-actions-button {
-}
-
-.hh-extra-actions-button--focused {
-	padding: 5px 0;
-	background-color: #fff;
+	&--focused {
+		padding: 5px 0;
+		background-color: $color-white;
+	}
 }
 
 .hh-extra-actions {
 	position:relative;
-}
 
-.hh-extra-actions__list {
-	display: none;
-	position: absolute;
-	right: 0;
-	top:0;
-	z-index: 100; /* to be higher than icons in the list and maybe some other non-modal elements */
+	&__list {
+		display: none;
+		position: absolute;
+		right: 0;
+		top:0;
+		z-index: 100; // to be higher than icons in the list and maybe some other non-modal elements
 
-	background-color:#fff;
-}
+		background-color: $color-white;
+	}
 
-.hh-extra-actions__item {
-	display:block;
-	padding:10px;
-}
+	&__item {
+		display:block;
+		padding:10px;
 
-.hh-extra-actions__item:hover {
-	background-color:#f9f9f9;
+		&:hover {
+			background-color: $color-white-2;
+		}
+	}
 }
 
 /* Editor - icons font extending */
-[class^="szed-icon-"]:before, [class*=" szed-icon-"]:before {
+[class^="szed-icon-"]:before,
+[class*=" szed-icon-"]:before {
 	font-size:15px;
 }
 
 .hh-sizes-list__crop-icon:before {
 	position: relative;
 	top: -1px;
-	color: #5d5d5d;
+	color: $color-black-2;
 	font-size: 13px;
 }
 
 /* Editor - fancybox extending */
 .szed-fancybox .fancybox-bg {
-	/*background-color: transparent;*/
+	// background-color: transparent;
 	opacity: 0.5;
 }
 
