@@ -6,6 +6,7 @@ const scss = require('gulp-sass');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const sourcemaps = require('gulp-sourcemaps');
+const stylelint = require('gulp-stylelint');
 
 const { exec } = require('child_process');
 
@@ -76,6 +77,42 @@ const webpackProduction = (cb) => {
   });
 };
 
+// Lint css
+function lintCss(cb) {
+  pump([
+    gulp.src([
+      `${assets.css}/**/*.scss`,
+    ]),
+    stylelint({
+      reporters: [
+        {
+          formatter: 'string',
+          console: true,
+        },
+      ],
+    }),
+  ], cb);
+}
+
+// Lint css
+function lintCssFix(cb) {
+  pump([
+    gulp.src([
+      `${assets.css}/**/*.scss`,
+    ]),
+    stylelint({
+      reporters: [
+        {
+          formatter: 'string',
+          console: true,
+        },
+      ],
+      fix: true,
+    }),
+    gulp.dest(assets.css),
+  ], cb);
+}
+
 // Tech tasks
 function clean() {
   return del(`${assets.build}/*`);
@@ -123,3 +160,5 @@ exports.watch = watchAll;
 
 exports.webpack = webpack;
 exports.webpack_production = webpackProduction;
+exports['lint-css'] = lintCss;
+exports['lint-css-fix'] = lintCssFix;

@@ -38,6 +38,7 @@ release:
 lint:
 	make lint-php
 	make lint-js
+	make lint-css
 
 ## PHP code-style
 lint-php:
@@ -58,3 +59,10 @@ lint-js:
 
 lint-js-fix:
 	@ npx eslint --fix .
+
+## CSS code-style
+lint-css:
+	@ npx gulp lint-css
+
+lint-css-fix:
+	@ npx gulp lint-css-fix

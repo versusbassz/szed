@@ -23,8 +23,12 @@
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
+    "gulp-stylelint": "^13.0.0",
     "husky": "^4.2.5",
     "pump": "^3.0.0",
+    "stylelint": "^13.6.0",
+    "stylelint-config-sass-guidelines": "^7.0.0",
+    "stylelint-order": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   },
