@@ -163,9 +163,6 @@ $nonce = wp_create_nonce(SZED_NONCE);
             <button class="button-primary button-large hh-editor__button js-szed__button-crop" type="button">Обрезать</button>
             <button class="button-primary button-large hh-editor__button js-szed__button-reset" type="button">Сбросить</button>
             <button class="button-primary button-large hh-editor__button js-szed__button-download" type="button">Скачать</button>
-            <?php if ($is_debug) { ?>
-                <button class="button-primary button-large hh-editor__button js-szed__button-debug" type="button">Debug</button>
-            <?php } ?>
         </div>
 
         <div class="hh-pending-info js-szed__preloader">

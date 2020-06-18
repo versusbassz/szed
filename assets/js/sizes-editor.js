@@ -188,17 +188,6 @@ $('.js-szed__button-download').click(() => {
   triggerDownload(result, `result.${extension}`);
 });
 
-// Button - Debug
-$('.js-szed__button-debug').click(() => {
-  if (!editor) {
-    // eslint-disable-next-line no-console
-    console.warn('Editor is not initialized');
-    return;
-  }
-
-  triggerDownload('data:text/html,HelloWorld!', 'helloWorld.txt');
-});
-
 // Extra action menu - toggle visibility
 $(document).on('click', '.js-szed-extra-actions__button', (e) => {
   const $link = $(e.target);
