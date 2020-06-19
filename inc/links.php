@@ -16,6 +16,21 @@ function add_links_in_admin_panel()
 
     add_action('admin_footer', 'szed\links\add_link_to_featured_image_metabox', 101);
     add_action('print_media_templates', 'szed\links\add_link_to_media_library_ui', 10);
+
+    add_action('admin_footer', 'szed\\links\\start_links_inserting_logic');
+}
+
+function start_links_inserting_logic()
+{
+    $editor_url = get_crop_page_url(0); // dirty hack...
+    ?>
+
+    <script type="text/javascript">
+        var szed = szed ? szed : {};
+        szed.editor_url = '<?= $editor_url ?>';
+    </script>
+
+    <?php
 }
 
 /**
@@ -46,48 +61,10 @@ function add_link_to_featured_image_metabox()
     if (! is_classic_editor_plugin_active()) {
         return;
     }
-
-    $editor_url = get_crop_page_url(0); // dirty hack...
     ?>
 
 <script>
-    jQuery(document).ready(function($) {
 
-        var editor_url_template = '<a id="szed-featured-image-metabox-link" href="<?= esc_attr($editor_url) ?>" target="_blank">Редактировать размеры</a>';
-
-        var current_input_value = 0;
-
-        setInterval(function() {
-
-            var $thumbnail_input = $('#_thumbnail_id');
-
-            if ($thumbnail_input.length) {
-
-                var input_value = $thumbnail_input.val();
-
-                if (input_value === '-1' || input_value === -1) {
-                    remove_link();
-                    return;
-                }
-
-                if (input_value && input_value !== current_input_value) {
-                    var link = editor_url_template.split('image-id=0').join('image-id=' + input_value);
-                    $thumbnail_input.parents('.inside').first().append($(link));
-
-                    current_input_value = input_value;
-                }
-            }
-        }, 2000);
-
-        function remove_link () {
-            var $prev_link = $('#szed-featured-image-metabox-link');
-
-            if ($prev_link.length) {
-                $prev_link.remove();
-            }
-        }
-
-    });
 </script>
 
     <?php
