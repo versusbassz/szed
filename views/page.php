@@ -13,6 +13,9 @@ $image = $data['image'];
 /** @var array $sizes */
 $sizes = $data['sizes'];
 
+/** @var array $sizes_for_list */
+$sizes_for_list = apply_filters('szed/editor_sizes', $sizes);
+
 /** @var array $sizes_settings */
 $sizes_settings = $data['sizes-settings'];
 
@@ -62,7 +65,7 @@ $nonce = wp_create_nonce(SZED_NONCE);
                 <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--misc">Misc</div>
             </div>
 
-            <?php foreach ($sizes as $size_id => $size_data) {
+            <?php foreach ($sizes_for_list as $size_id => $size_data) {
                 $crop_params = $size_data['image']['crop-params'] ?? [];
                 $can_crop = $size_data['data']['crop'] && $size_data['is-possible'];
                 ?>
