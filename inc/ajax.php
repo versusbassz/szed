@@ -104,9 +104,9 @@ function handle_ajax_response(array $request)
 
     // valid size_id param
     $global_sizes = get_sizes_global_data();
-    $valid_sizes = array_keys($global_sizes);
+    $valid_sizes_ids = array_keys($global_sizes);
 
-    if (! isset($request['size_id']) || ! in_array($request['size_id'], $valid_sizes)) {
+    if (! isset($request['size_id']) || ! in_array($request['size_id'], $valid_sizes_ids)) {
         return new \WP_Error('szed.ajax.crop.incorrect_size_id', 'Некорректный id размера изображения');
     }
 

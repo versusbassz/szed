@@ -218,7 +218,7 @@ function get_attachment_sizes_for_editor(int $image_id)
             'data' => $global_size,
             'has-size' => $image_has_size,
             'file-exists' => $image_has_size ? file_exists($image_size['path']) : false,
-            'is-possible' => $global_size['crop'] && is_size_possible(
+            'is-crop-upscaled' => $global_size['crop'] && ! is_size_possible(
                 $image_sizes['full']['width'],
                 $image_sizes['full']['height'],
                 $global_size['width'],
@@ -233,6 +233,7 @@ function get_attachment_sizes_for_editor(int $image_id)
         'data' => get_size_global_data('full'),
         'has-size' => true, // is it necessary to do smth here?
         'file-exists' => file_exists($image_sizes['full']['path']),
+        'is-crop-upscaled' => false,
         'image' => $image_sizes['full'],
     ];
 

@@ -67,7 +67,8 @@ $nonce = wp_create_nonce(SZED_NONCE);
 
             <?php foreach ($sizes_for_list as $size_id => $size_data) {
                 $crop_params = $size_data['image']['crop-params'] ?? [];
-                $can_crop = $size_data['data']['crop'] && $size_data['is-possible'];
+                $can_crop = $size_data['data']['crop'];
+                $is_crop_upscaled = $size_data['is-crop-upscaled'];
                 ?>
 
                 <div class="hh-sizes-list__item js-szed__size-item" data-size-id="<?= esc_attr($size_id) ?>">

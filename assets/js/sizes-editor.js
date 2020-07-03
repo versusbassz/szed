@@ -3,7 +3,12 @@ import constructErrorsBlock from './components/errors-block';
 import constructPreloader from './components/preloader';
 import { log } from './debug';
 import { initChooseImageLogic } from './choose-image';
-import { disableCacheForUrl, triggerDownload } from './util';
+import {
+  disableCacheForUrl,
+  fixEditorValue,
+  getMinSideValue,
+  triggerDownload,
+} from './util';
 
 let editor;
 let size;
@@ -14,7 +19,9 @@ const $prevSizeImage = $('.js-szed__preview-old');
 const preloader = constructPreloader($('.js-szed__preloader'));
 const errorsBlock = constructErrorsBlock($('.js-szed__errors'));
 
-function initEditor(sizeId, cropParams) {
+function initEditor(sizeId, cropParamsSource) {
+  // eslint-disable-next-line prefer-object-spread
+  const cropParams = Object.assign({}, cropParamsSource);
   const currentSize = szed.sizes[sizeId];
 
   // cropbox minimal dimentions
@@ -24,17 +31,16 @@ function initEditor(sizeId, cropParams) {
   const imageHeightNatural = image.naturalHeight;
 
   /* eslint-disable max-len */
-  const minCropBoxWidth = Math.ceil(currentSize.data.width * (imageWidthVisible / imageWidthNatural));
-  const minCropBoxHeight = Math.ceil(currentSize.data.height * (imageHeightVisible / imageHeightNatural));
+  const minCropBoxWidth = getMinSideValue(currentSize.data.width, imageWidthVisible, imageWidthNatural);
+  const minCropBoxHeight = getMinSideValue(currentSize.data.height, imageHeightVisible, imageHeightNatural);
   /* eslint-enable max-len */
 
-  // init
-  editor = new Cropper(image, {
+  const editorOptions = {
     viewMode: 1, // for availability of .setData()
     aspectRatio: currentSize.data.ratio,
     autoCropArea: 1,
-    minCropBoxWidth,
-    minCropBoxHeight,
+    minCropBoxWidth: fixEditorValue(minCropBoxWidth),
+    minCropBoxHeight: fixEditorValue(minCropBoxHeight),
     preview: '.js-szed__preview',
     guides: false,
     movable: false,
@@ -42,10 +48,21 @@ function initEditor(sizeId, cropParams) {
     zoomable: false,
     ready() {
       if (cropParams) {
+        cropParams.width = fixEditorValue(cropParams.width);
+
+        /* eslint-disable no-console */
+        console.log(image);
+        console.log(cropParams);
+        console.log(editorOptions);
+        /* eslint-enable no-console */
+
         editor.setData(cropParams);
       }
     },
-  });
+  };
+
+  // init
+  editor = new Cropper(image, editorOptions);
 }
 
 function startEditor(sizeId, cropParams) {
