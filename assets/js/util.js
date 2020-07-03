@@ -26,3 +26,17 @@ export function triggerDownload(dataurl, filename) {
   a.setAttribute('download', filename);
   a.click();
 }
+
+export function getMinSideValue(sizeValue, editorValue, realImageValue) {
+  let result = Math.ceil(sizeValue * (editorValue / realImageValue));
+
+  if (result > editorValue) {
+    result = editorValue;
+  }
+
+  return result;
+}
+
+export function fixEditorValue(value) {
+  return value - 0.001;
+}
