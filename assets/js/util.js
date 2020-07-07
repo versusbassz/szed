@@ -38,5 +38,5 @@ export function getMinSideValue(sizeValue, editorValue, realImageValue) {
 }
 
 export function fixEditorValue(value) {
-  return value - 0.001;
+  return value - 1;
 }

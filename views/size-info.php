@@ -42,7 +42,9 @@ $render_attrs = function (array $attrs = []) {
     }
 
     return $result;
-}
+};
+
+$show_size_id = apply_filters('szed/show_size_id', true);
 ?>
 
 <div class="hh-sizes-list__item-cell hh-sizes-list__item-cell--id">
@@ -50,8 +52,12 @@ $render_attrs = function (array $attrs = []) {
     <!-- Системное имя размера изображений -->
     <?php if ($size_custom_title) { ?>
         <span><?= esc_html($size_custom_title) ?></span>
-        <br>
-        <span class="hh-sizes-list__size-id-sub-line">id: <?= $size_data['id'] ?></span>
+
+        <?php if ($show_size_id) { ?>
+            <br>
+            <span class="hh-sizes-list__size-id-sub-line">id: <?= $size_data['id'] ?></span>
+        <?php } ?>
+
     <?php } else { ?>
         <span><?= $size_data['id'] ?></span>
     <?php } ?>
