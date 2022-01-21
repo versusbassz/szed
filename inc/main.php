@@ -118,7 +118,7 @@ function render_admin_page()
 add_action('admin_enqueue_scripts', function () {
     global $pagenow;
 
-    if ($pagenow === 'tools.php' && $_GET['page'] === SZED_ADMIN_PAGE_SLUG) {
+    if ($pagenow === 'tools.php' && isset($_GET['page']) && $_GET['page'] === SZED_ADMIN_PAGE_SLUG) {
         wp_enqueue_media();
 
         wp_enqueue_style(
