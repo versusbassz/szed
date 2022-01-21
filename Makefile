@@ -26,7 +26,6 @@ release:
 	cp ./README.md ./dist && \
 	cp ./szed.php ./dist && \
 	cp ./webpack.config.js ./dist && \
-	cp ./webpack.config.js ./dist && \
 	cp -r ./assets ./dist && \
 	cp -r ./inc ./dist && \
 	cp -r ./vendor ./dist && \
