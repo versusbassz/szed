@@ -16,7 +16,6 @@ assets.css = `${assets.path}/styles`;
 assets.js = `${assets.path}/js`;
 assets.build = `${assets.path}/build`;
 
-
 // Styles
 function cssAdmin(cb) {
   const plugins = [
@@ -151,7 +150,6 @@ const watchAll = gulp.parallel(
   watchCss,
   watchJs,
 );
-
 
 exports.default = build;
 exports.build = build;
