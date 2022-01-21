@@ -1,4 +1,3 @@
-
 module.exports = {
   env: {
     browser: true
@@ -11,6 +10,7 @@ module.exports = {
     'assets/build/*',
     'custom/*',
     'dist/*',
+    '.eslintrc.js',
   ],
   globals: {
     'szed': true,
