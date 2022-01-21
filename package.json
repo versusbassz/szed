@@ -24,7 +24,7 @@
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-stylelint": "^13.0.0",
-    "husky": "^4.3.8",
+    "husky": "^7.0.0",
     "postcss": "^8.4.5",
     "pump": "^3.0.0",
     "sass": "^1.49.0",
@@ -36,17 +36,12 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "make lint"
+    "lint": "make lint",
+    "prepare": "husky install"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "IE 11"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run lint"
-    }
-  }
+  ]
 }
