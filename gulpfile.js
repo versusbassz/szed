@@ -57,7 +57,7 @@ function fancybox(cb) {
 }
 
 const webpack = (cb) => {
-  exec('npx webpack --env.mode=development', (err, stdout, stderr) => {
+  exec('npx webpack --env mode=development', (err, stdout, stderr) => {
     /* eslint-disable no-console */
     console.log(stdout);
     console.log(stderr);
@@ -67,7 +67,7 @@ const webpack = (cb) => {
 };
 
 const webpackProduction = (cb) => {
-  exec('npx webpack --env.mode=production', (err, stdout, stderr) => {
+  exec('npx webpack --env mode=production', (err, stdout, stderr) => {
     /* eslint-disable no-console */
     console.log(stdout);
     console.log(stderr);
