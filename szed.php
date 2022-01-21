@@ -8,11 +8,11 @@
  * Author URI: https://profiles.wordpress.org/versusbassz/
  * License: GPL3
  *
- * Requires PHP: 7.1
+ * Requires PHP: 7.4
  * Requires at least: 5.3
  */
 
-if (! version_compare(PHP_VERSION, '7.1.0', '>=')) {
+if (! version_compare(PHP_VERSION, '7.4.0', '>=')) {
     return;
 }
 
