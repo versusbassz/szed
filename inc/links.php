@@ -42,7 +42,7 @@ function add_link_to_featured_image_metabox()
     if (! in_array($pagenow, ['post.php', 'post-new.php'])) {
         return;
     }
-    
+
     if (! is_classic_editor_plugin_active()) {
         return;
     }
