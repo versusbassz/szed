@@ -1,4 +1,4 @@
-default:
+jjj:
 	@ echo "It's empty task."
 
 ci:
