@@ -20,4 +20,4 @@ Szed = Attachments **S**i**Z**es **ED**itor
 
 ## How to start development
 - `make build`
-- start `VVV` instance with proper settings (will be described later...)
+- `make dev-env--up` (requires docker)
