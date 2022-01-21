@@ -13,7 +13,7 @@ Szed = Attachments **S**i**Z**es **ED**itor
 - doesnt work with Multisite
 
 ## Requirements
-- PHP 7.1+
+- PHP 7.4+
 - Wordpress 5.3+
 - display resolution (minimal): 1366x768
 - browsers: old browsers are not supported, only latest versions
