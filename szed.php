@@ -9,7 +9,7 @@
  * License: GPL3
  *
  * Requires PHP: 7.4
- * Requires at least: 5.3
+ * Requires at least: 5.7
  */
 
 if (! version_compare(PHP_VERSION, '7.4.0', '>=')) {
