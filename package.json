@@ -28,9 +28,9 @@
     "postcss": "^8.4.5",
     "pump": "^3.0.0",
     "sass": "^1.49.0",
-    "stylelint": "^13.13.1",
-    "stylelint-config-sass-guidelines": "^7.1.0",
-    "stylelint-order": "^4.1.0",
+    "stylelint": "^14.2.0",
+    "stylelint-config-sass-guidelines": "^9.0.1",
+    "stylelint-order": "^5.0.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12"
   },
