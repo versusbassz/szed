@@ -33,6 +33,10 @@ release:
 	\
 	make build
 
+clear-release:
+	mkdir -p ./dist
+	rm -rf ./dist/*
+
 ## Common lint command
 lint:
 	make lint-php && \
