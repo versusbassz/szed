@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: szed
- * Description: ---
+ * Description: Images sizes editor for WordPress
  * Version: 0.2.0
  * Author: Vladimir Sklyar
  * Author URI: https://profiles.wordpress.org/versusbassz/
